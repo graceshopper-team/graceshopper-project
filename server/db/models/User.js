@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+const { Sequelize, DataTypes } = require('sequelize')
 const db = require('../db')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
@@ -7,7 +7,6 @@ const axios = require('axios');
 const SALT_ROUNDS = 5;
 
 const User = db.define('user', {
-  //comment inside User model to test branch
   username: {
     type: Sequelize.STRING,
     unique: true,
@@ -15,10 +14,18 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
+  },
+  imageUrl: {
+    //no 'isUrl: true' validation, but could potentially be needed
+    type: Sequelize.STRING,
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   }
-})
+});
 
-module.exports = User
+module.exports = User;
 
 /**
  * instanceMethods
