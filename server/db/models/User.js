@@ -15,6 +15,14 @@ const User = db.define("user", {
   password: {
     type: Sequelize.STRING,
   },
+  imageUrl: {
+    //no 'isUrl: true' validation, but could potentially be needed
+    type: Sequelize.STRING,
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 module.exports = User;
