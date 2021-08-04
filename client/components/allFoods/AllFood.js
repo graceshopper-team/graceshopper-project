@@ -1,27 +1,51 @@
-import React from "react";
-import { connect } from "react-redux";
-
-const fakeData = [
-  {
-    id: 1,
-    price: 9.99,
-    image:
-      "https://static.wikia.nocookie.net/zelda_gamepedia_en/images/9/9d/BotW_Hasty_Elixir_Icon.png/revision/latest/scale-to-width-down/178?cb=20210704015804",
-  },
-];
+import React from 'react';
+import { connect } from 'react-redux';
+import AllFoodItem from './AllFoodItem';
+import { fetchProducts } from '../../store/allProducts';
 
 class AllFood extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  componentDidMount() {
+    this.props.loadAllProducts();
+  }
+
   render() {
+    const productsList = this.props.products || [];
+
     return (
-      <div>
-        sdlfoisef jaehfropiasdg opisfpoi sfio hsiodfgh iosehfo asHFGOs
-        ofasehoiugh iouherg hi hi hi hi hi hi
+      <div id="allProductsContainer">
+        <div id="allProuctsHolder">
+          {productsList.map((element) => {
+            return (
+              <AllFoodItem
+                name={element.name}
+                key={element.id}
+                cost={element.cost}
+                imageUrl={element.imageUrl}
+                db_id={element.id}
+                inventory={element.inventory}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }
 }
 
-export default AllFood;
+const mapStateToProps = (state) => {
+  return {
+    products: state.allProducts,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadAllProducts: () => dispatch(fetchProducts()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllFood);

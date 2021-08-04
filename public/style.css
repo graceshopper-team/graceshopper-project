@@ -7,10 +7,12 @@
 body {
   display: flex;
   flex-direction: column;
+  margin: 0px;
 }
+
 #navbar {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #393c48;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #2a2c35;
   position: fixed;
   top: 0px;
   width: 100%;
@@ -27,8 +29,7 @@ body {
 }
 
 nav {
-  min-width: 800px;
-  max-width: 1200px;
+  width: 1200px;
   color: white;
   display: flex;
   flex-direction: row;
@@ -48,6 +49,11 @@ nav a {
   color: white;
   padding: 0px;
 }
+
+nav a:hover {
+  text-decoration: underline;
+}
+
 li {
   float: left;
   text-align: center;
@@ -60,4 +66,83 @@ li a {
   display: block;
   color: white;
   text-decoration: none;
+}
+
+#allProductsContainer {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#allProuctsHolder {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 1200px;
+}
+
+.allFoodItem {
+  width: 260px;
+  height: 320px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.allFoodItem p {
+  margin: 0px;
+}
+.allFoodItem button {
+  background-color: #6c6acc;
+  color: white;
+  font-weight: bold;
+  width: 240px;
+  height: 50px;
+  border: 0px;
+  font-size: 17px;
+  margin-top: 10px;
+}
+.oos {
+  background-color: #29293c;
+  color: white;
+  font-weight: bold;
+  width: 240px;
+  height: 50px;
+  border: 0px;
+  font-size: 17px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.allFoodItem button:hover {
+  background-color: #393c48;
+}
+
+.allItemName {
+  font-size: 18px;
+}
+
+.allItemPrice {
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+.allFoodItem img {
+  width: 240px;
+  height: 200px;
+}
+
+.allFoodItem a {
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
 }
