@@ -146,3 +146,108 @@ li a {
   font-family: inherit;
   font-size: inherit;
 }
+
+#cartHolder {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#cartContainer {
+  width: 1000px;
+  display: flex;
+  flex-direction: row;
+}
+
+#cartLeft {
+  width: 700px;
+}
+
+#cartLeft ul {
+  text-decoration: none;
+  list-style-type: none;
+}
+
+#itemList {
+  height: 100px;
+  width: 600px;
+  border-style: solid;
+  border-radius: 30px;
+  border-color: #2a2c35;
+  margin: 30px;
+}
+#itemList li {
+  font-size: 20px;
+}
+
+#cartRight {
+  margin-top: 40px;
+  width: 300px;
+  background-color: white;
+}
+
+#cartRight ul {
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0px;
+}
+
+#cartRightButton {
+  background-color: #6c6acc;
+  color: white;
+  font-weight: bold;
+  width: 300px;
+  height: 45px;
+  border: 0px;
+  font-size: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#cartRightButton:hover {
+  background-color: #393c48;
+}
+
+#orderSumHolderLeft ul {
+  text-decoration: none;
+  list-style-type: none;
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+}
+#orderSumHolderLeft li {
+  text-align: left;
+}
+
+#orderSumHolderLeft {
+  text-align: right;
+  width: 140px;
+}
+
+#orderSumHolderRight {
+  text-align: right;
+  width: 140px;
+}
+
+#orderSumHolderRight ul {
+  text-decoration: none;
+  list-style-type: none;
+  text-align: right;
+  margin: 0px;
+  padding: 0px;
+}
+#orderSumHolderRight li {
+  text-align: right;
+}
+
+#orderSumHolder {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 0px;
+}
