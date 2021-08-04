@@ -5,21 +5,7 @@ import { connect } from "react-redux";
 // then the func name assigned to store functions there to be used where needed.
 //  (example in commented-out componentDidMount func)
 //
-// import { fetchProduct, buyProduct, addProductToCart? } from '../store/SingleProduct.js'; 
-
-const fakeData = 
-  {
-    id: 1,
-    name: 'Big Hearty Radish',
-    description:
-      "This hearty radish has grown much larger than the average radish. It's rich in analeptic compounds that, when cooked into a dish, temporarily increase your maximum hearts",
-    category: 'Vegetable',
-    hearts: 4,
-    inventory: 27,
-    cost: 10,
-    imageUrl:
-      'https://static.wikia.nocookie.net/zelda/images/f/f1/Breath_of_the_Wild_Vegetables_%28Radishes%29_Big_Hearty_Radish_%28Icon%29.png/revision/latest?cb=20170808072417',
-  };
+import { fetchSingleProduct } from '../../store/singleProduct.js'; 
 
   //TODO: 
   //1) import ... from store/singleProduct and map to props
@@ -45,10 +31,10 @@ class SingleFood extends React.Component {
   }
   
   // TODO: get Product based on ID in the URL
-  // componentDidMount() {
-  //   const { id } = this.props.match.params;
-  //   this.props.getProduct(id);
-  // }
+  componentDidMount() {
+    const { productId } = this.props.match.params;
+    this.props.getSingleProduct(productId);
+  }
   
   // maybe add componentWillUnmount to clear props after unmounting?
   
@@ -64,9 +50,9 @@ class SingleFood extends React.Component {
   // change inventory in state to value selected in quantity selection
   handleChange(evt) {
     // consider doing check here if value > inventory available
-    this.setState({
-      inventory: evt.target.value
-    });
+    // this.setState({
+    //   inventory: evt.target.value
+    // });
   }
   
   // add item to cart
@@ -74,7 +60,8 @@ class SingleFood extends React.Component {
   // dont know if best way, maybe pass product in state & quantity as 2nd param
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.buyProduct({ ...this.props.product}, { ...this.state });
+    console.log('hey, you hit submit');
+    //this.props.addToCart({ ...this.props.product}, { ...this.state });
   }
   
   render() {
@@ -82,11 +69,11 @@ class SingleFood extends React.Component {
     //   const { id } = this.props.match.params;
     //
     // or with everything else like this:
-    //   const { product } = this.props;
-    //   const { id, name, description, category, hearts, inventory, cost, imageUrl } = product;
+    const product = this.props.product || {};
+    const { id, name, description, category, hearts, inventory, cost, imageUrl } = product;
     //   const { inventory } = this.state;
     
-    const { id, name, description, category, hearts, inventory, cost, imageUrl } = fakeData;
+    //const { id, name, description, category, hearts, inventory, cost, imageUrl } = fakeData;
     const quantityToBuyInitialValue = 0;
     
     return (
@@ -108,15 +95,13 @@ class SingleFood extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   product: state.singleProduct/Food
-// });
+const mapStateToProps = (state) => ({
+  product: state.singleProduct
+});
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getSingleProduct: (id) => dispatch(fetchSingleProduct(id)),
-//   addToCart: (product, quantity) => dispatch(addProductToCart(product, quantity))
-// });
+const mapDispatchToProps = (dispatch) => ({
+  getSingleProduct: (productId) => dispatch(fetchSingleProduct(productId))
+});
 
 
-export default SingleFood;
-//export default connect(mapStateToProps, mapDispatchToProps)(SingleFood);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleFood);
