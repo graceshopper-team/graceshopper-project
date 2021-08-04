@@ -8,6 +8,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 #navbar {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #393c48;
@@ -27,8 +28,7 @@ body {
 }
 
 nav {
-  min-width: 800px;
-  max-width: 1200px;
+  width: 1000px;
   color: white;
   display: flex;
   flex-direction: row;
@@ -48,6 +48,11 @@ nav a {
   color: white;
   padding: 0px;
 }
+
+nav a:hover {
+  text-decoration: underline;
+}
+
 li {
   float: left;
   text-align: center;
@@ -60,4 +65,60 @@ li a {
   display: block;
   color: white;
   text-decoration: none;
+}
+
+#allProductsContainer {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#allProuctsHolder {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 1000px;
+}
+
+.allFoodItem {
+  width: 200px;
+  height: 320px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.allFoodItem p {
+  margin: 0px;
+}
+.allFoodItem button {
+  background-color: #6c6acc;
+  color: white;
+  font-weight: bold;
+  width: 200px;
+  height: 50px;
+  border: 0px;
+  font-size: 17px;
+
+}
+
+.allFoodItem button:hover {
+  background-color: #393c48;
+}
+
+.allItemName {
+  font-size: 20px;
+
+}
+
+
+.allItemPrice {
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+.allFoodItem img {
+  width: 200px;
+  height: 200px;
 }
