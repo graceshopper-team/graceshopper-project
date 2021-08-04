@@ -28,7 +28,7 @@ body {
 }
 
 nav {
-  width: 1000px;
+  width: 1200px;
   color: white;
   display: flex;
   flex-direction: row;
@@ -77,13 +77,16 @@ li a {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 1000px;
+  width: 1200px;
 }
 
 .allFoodItem {
-  width: 200px;
+  width: 260px;
   height: 320px;
-  margin: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
+  margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -96,7 +99,7 @@ li a {
   background-color: #6c6acc;
   color: white;
   font-weight: bold;
-  width: 200px;
+  width: 240px;
   height: 50px;
   border: 0px;
   font-size: 17px;
@@ -119,6 +122,6 @@ li a {
 }
 
 .allFoodItem img {
-  width: 200px;
+  width: 240px;
   height: 200px;
 }
