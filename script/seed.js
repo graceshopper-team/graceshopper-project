@@ -32,8 +32,7 @@ async function seed() {
       hearts: 0.5,
       inventory: 50,
       cost: 3,
-      imageUrl:
-        'https://static.wikia.nocookie.net/zelda/images/0/07/Breath_of_the_Wild_Fruits_Apple_%28Icon%29.png/revision/latest?cb=20170509235505',
+      imageUrl: 'https://www.zeldadungeon.net/wiki/images/c/c3/Apple-botw.png',
     }),
     Product.create({
       name: 'Big Hearty Radish',
@@ -44,7 +43,7 @@ async function seed() {
       inventory: 0,
       cost: 10,
       imageUrl:
-        'https://static.wikia.nocookie.net/zelda/images/f/f1/Breath_of_the_Wild_Vegetables_%28Radishes%29_Big_Hearty_Radish_%28Icon%29.png/revision/latest?cb=20170808072417',
+        'https://www.zeldadungeon.net/wiki/images/0/0c/Big_Hearty_Radish.png',
     }),
     Product.create({
       name: 'Raw Meat',
@@ -54,8 +53,7 @@ async function seed() {
       hearts: 1,
       inventory: 99,
       cost: 5,
-      imageUrl:
-        'https://static.wikia.nocookie.net/zelda/images/3/38/Breath_of_the_Wild_Meat_Raw_Meat_%28Icon%29.png/revision/latest?cb=20170407074844',
+      imageUrl: 'https://www.zeldadungeon.net/wiki/images/e/e9/Raw_Meat.png',
     }),
   ]);
 
