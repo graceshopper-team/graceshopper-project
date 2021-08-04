@@ -1,7 +1,7 @@
-import React from "react";
-import { connect } from "react-redux";
-import AllFoodItem from "./AllFoodItem";
-import { fetchProducts } from "../../store/allProducts";
+import React from 'react';
+import { connect } from 'react-redux';
+import AllFoodItem from './AllFoodItem';
+import { fetchProducts } from '../../store/allProducts';
 
 class AllFood extends React.Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class AllFood extends React.Component {
                 cost={element.cost}
                 imageUrl={element.imageUrl}
                 db_id={element.id}
+                inventory={element.inventory}
               />
             );
           })}

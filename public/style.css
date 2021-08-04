@@ -11,7 +11,7 @@ body {
 }
 
 #navbar {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #2a2c35;
   position: fixed;
   top: 0px;
@@ -69,7 +69,7 @@ li a {
 }
 
 #allProductsContainer {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-top: 100px;
   display: flex;
   flex-direction: column;
@@ -107,6 +107,20 @@ li a {
   font-size: 17px;
   margin-top: 10px;
 }
+.oos {
+  background-color: #29293c;
+  color: white;
+  font-weight: bold;
+  width: 240px;
+  height: 50px;
+  border: 0px;
+  font-size: 17px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 .allFoodItem button:hover {
   background-color: #393c48;
@@ -124,4 +138,11 @@ li a {
 .allFoodItem img {
   width: 240px;
   height: 200px;
+}
+
+.allFoodItem a {
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
 }

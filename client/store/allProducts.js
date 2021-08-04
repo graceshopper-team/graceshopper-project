@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 //constants
-const SET_PRODUCTS = "SET_PRODUCTS";
+const SET_PRODUCTS = 'SET_PRODUCTS';
 
 //actions
 export const setProducts = (products) => {
@@ -15,7 +15,7 @@ export const setProducts = (products) => {
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-      const productsRes = await axios.get("/api/products");
+      const productsRes = await axios.get('/api/products');
       const products = productsRes.data;
       dispatch(setProducts(products));
     } catch (error) {

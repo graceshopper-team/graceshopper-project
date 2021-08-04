@@ -41,7 +41,7 @@ async function seed() {
         "This hearty radish has grown much larger than the average radish. It's rich in analeptic compounds that, when cooked into a dish, temporarily increase your maximum hearts",
       category: 'Vegetable',
       hearts: 4,
-      inventory: 27,
+      inventory: 0,
       cost: 10,
       imageUrl:
         'https://static.wikia.nocookie.net/zelda/images/f/f1/Breath_of_the_Wild_Vegetables_%28Radishes%29_Big_Hearty_Radish_%28Icon%29.png/revision/latest?cb=20170808072417',
