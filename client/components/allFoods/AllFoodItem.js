@@ -6,7 +6,7 @@ export default function AllFoodItem(props) {
       <img src={props.imageUrl} alt={`${props.name}'s image`} />
       <div id="allItemInfo">
         <p className="allItemName"> {props.name}</p>
-        <p className="allItemPrice"> {props.cost} Gold</p>
+        <p className="allItemPrice"> {props.cost} Rupees</p>
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
