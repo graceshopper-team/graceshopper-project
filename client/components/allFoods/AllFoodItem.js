@@ -1,13 +1,26 @@
 import React from "react";
 
 export default function AllFoodItem(props) {
+  function click(evt) {
+    evt.preventDefault();
+    console.log(
+      "add to cart button clicked for",
+      props.name,
+      "id is",
+      props.db_id
+    );
+  }
   return (
     <div className="allFoodItem">
       <img src={props.imageUrl} alt={`${props.name}'s image`} />
       <div id="allItemInfo">
         <p className="allItemName"> {props.name}</p>
         <p className="allItemPrice"> {props.cost} Rupees</p>
-        <button>
+        <button
+          onClick={(evt) => {
+            click(evt);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

@@ -7,7 +7,7 @@
 body {
   display: flex;
   flex-direction: column;
-  margin: 0px
+  margin: 0px;
 }
 
 #navbar {
@@ -105,7 +105,7 @@ li a {
   height: 50px;
   border: 0px;
   font-size: 17px;
-
+  margin-top: 10px;
 }
 
 .allFoodItem button:hover {
@@ -114,9 +114,7 @@ li a {
 
 .allItemName {
   font-size: 18px;
-
 }
-
 
 .allItemPrice {
   font-size: 30px;
