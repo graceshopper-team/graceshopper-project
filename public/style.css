@@ -146,3 +146,62 @@ li a {
   font-family: inherit;
   font-size: inherit;
 }
+
+#authformHolder {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#authform {
+  background-color: #6ebba8;
+  height: 350px;
+  width: 350px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#authform p {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.input-field {
+  border: 0px;
+  border-radius: 8px;
+  margin: 0px 20px;
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+#authform form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#authform form label {
+  color: white;
+}
+#authform form div {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  color: white;
+}
+#authform form button {
+  background-color: #6c6acc;
+  color: white;
+  font-weight: bold;
+  width: 140px;
+  height: 35px;
+  border: 0px;
+  font-size: 17px;
+  margin-top: 10px;
+  border-radius: 15px;
+}
