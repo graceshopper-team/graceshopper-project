@@ -1,23 +1,34 @@
-const Sequelize = require("sequelize");
-const db = require("../db");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const axios = require("axios");
+const Sequelize = require('sequelize');
+const db = require('../db');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const axios = require('axios');
 
 const SALT_ROUNDS = 5;
 
-const User = db.define("user", {
+const User = db.define('user', {
   username: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
   },
+  email: {
+    type: Sequelize.STRING,
+    unique: true,
+    validate: {
+      isEmail: true,
+    },
+  },
   password: {
     type: Sequelize.STRING,
   },
   imageUrl: {
-    //no 'isUrl: true' validation, but could potentially be needed
     type: Sequelize.STRING,
+    defaultValue:
+      'https://www.zeldadungeon.net/wiki/images/thumb/0/08/Link_-_SSB_Melee_Trophy_8_%28Link_Smash_1%29.png/535px-Link_-_SSB_Melee_Trophy_8_%28Link_Smash_1%29.png',
+    validate: {
+      isUrl: true,
+    },
   },
   isAdmin: {
     type: Sequelize.BOOLEAN,
@@ -45,7 +56,7 @@ User.prototype.generateToken = function () {
 User.authenticate = async function ({ username, password }) {
   const user = await this.findOne({ where: { username } });
   if (!user || !(await user.correctPassword(password))) {
-    const error = Error("Incorrect username/password");
+    const error = Error('Incorrect username/password');
     error.status = 401;
     throw error;
   }
@@ -57,11 +68,11 @@ User.findByToken = async function (token) {
     const { id } = await jwt.verify(token, process.env.JWT);
     const user = User.findByPk(id);
     if (!user) {
-      throw "nooo";
+      throw 'nooo';
     }
     return user;
   } catch (ex) {
-    const error = Error("bad token");
+    const error = Error('bad token');
     error.status = 401;
     throw error;
   }
@@ -72,7 +83,7 @@ User.findByToken = async function (token) {
  */
 const hashPassword = async (user) => {
   //in case the password has been changed, we want to encrypt it with bcrypt
-  if (user.changed("password")) {
+  if (user.changed('password')) {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   }
 };
