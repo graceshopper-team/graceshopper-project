@@ -11,9 +11,6 @@ const Product = db.define('product', {
     type: Sequelize.TEXT,
     allowNull: false,
   },
-  category: {
-    type: Sequelize.STRING,
-  },
   hearts: {
     type: Sequelize.FLOAT,
     defaultValue: 0,
@@ -30,10 +27,18 @@ const Product = db.define('product', {
   },
   cost: {
     type: Sequelize.INTEGER,
+    allowNull: false,
+
+    validate: {
+      min: 0,
+    },
   },
   imageUrl: {
-    //no 'isUrl: true' validation, but could potentially be needed
     type: Sequelize.STRING,
+    defaultValue: 'https://www.zeldadungeon.net/wiki/images/d/df/Wood.png',
+    validate: {
+      isUrl: true,
+    },
   },
 });
 
