@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
+import { Link } from 'react-router-dom';
 
 /**
  * COMPONENT
@@ -39,6 +40,7 @@ const AuthForm = (props) => {
           {error && error.response && <div id="loginError"> {error.response.data} </div>}
         </form>
       </div>
+      {props.name === 'login' ? ( <Link to={'/signup'}><span>Don't Have An Account?  Click here to register</span></Link>) : (<span></span>)}
     </div>
   );
 };

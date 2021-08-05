@@ -138,6 +138,9 @@ li a {
 .allItemName {
   font-size: 18px;
 }
+.allItemName:hover {
+  text-decoration: underline;
+}
 
 .allItemPrice {
   font-size: 30px;
@@ -206,6 +209,17 @@ li a {
   align-items: center;
   user-select: none;
 }
+
+#authformHolder a{
+  text-decoration: none;
+  color: #393c48;
+  margin-top: 6px;
+}
+
+#authformHolder a:hover{
+  text-decoration: underline;
+}
+
 #authform {
   background-color: #6ebba8;
   height: 350px;
