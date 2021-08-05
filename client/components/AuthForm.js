@@ -23,19 +23,20 @@ const AuthForm = (props) => {
               <small>Username</small>
             </label>
             <br></br>
-            <input className="input-field" name="username" type="text" />
+            <input className="input-field" name="username" type="text" required />
           </div>
           <div>
             <label htmlFor="password">
               <small>Password</small>
             </label>
             <br></br>
-            <input className="input-field" name="password" type="password" />
+            <input className="input-field" name="password" type="password" required/>
           </div>
           <div>
             <button type="submit">{displayName}</button>
           </div>
-          {error && error.response && <div> {error.response.data} </div>}
+
+          {error && error.response && <div id="loginError"> {error.response.data} </div>}
         </form>
       </div>
     </div>
