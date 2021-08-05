@@ -159,6 +159,115 @@ li a {
   font-size: inherit;
 }
 
+
+#cartHolder {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#cartContainer {
+  width: 1000px;
+  display: flex;
+  flex-direction: row;
+}
+
+#cartLeft {
+  width: 700px;
+  margin-right: 100px;
+}
+
+#cartLeft ul {
+  text-decoration: none;
+  list-style-type: none;
+}
+#productName {
+  font-size: 20px;
+  text-align: left;
+}
+
+#productName p {
+  font-size: 30px;
+  font-weight: 500;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+#productName button {
+  margin: 0px 10px;
+  background-color: #9f9f9f;
+  border-radius: 50%;
+  border: 0;
+  height: 20px;
+  width: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+#productName button:hover {
+  background-color: #696767;
+  transition: 0.2s;
+}
+.delete {
+  background-color: #6c6acc;
+  border-radius: 5px;
+  border: 0;
+  height: 25px;
+  width: 25px;
+  color: white;
+  font-weight: bold;
+}
+
+.delete:hover {
+  background-color: #393c48;
+  transition: 0.25s;
+}
+
+#cartListImage {
+  height: 90px;
+  width: 90px;
+}
+
+#itemList {
+  height: 110px;
+  width: 600px;
+  border-style: solid;
+  border-radius: 20px;
+  border-color: #2a2c35;
+  margin: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#cartRight {
+  margin-top: 40px;
+  width: 300px;
+  background-color: white;
+}
+#cartRight a {
+  text-decoration: none;
+}
+
+#cartRight ul {
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0px;
+}
+
+#cartRightButton {
+  background-color: #6c6acc;
+  color: white;
+  font-weight: bold;
+  width: 300px;
+  height: 45px;
+  border: 0px;
+  border-radius: 8px;
+}
+
 /* Single Product Info below */
 
 .single-product-container {
@@ -326,6 +435,54 @@ li a {
   align-items: center;
   justify-content: center;
 }
+
+
+#cartRightButton:hover {
+  background-color: #393c48;
+  transition: 0.2s;
+  transform: scale(1.05);
+}
+
+#orderSumHolderLeft ul {
+  text-decoration: none;
+  list-style-type: none;
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+}
+#orderSumHolderLeft li {
+  text-align: left;
+}
+
+#orderSumHolderLeft {
+  text-align: right;
+  width: 140px;
+}
+
+#orderSumHolderRight {
+  text-align: right;
+  width: 140px;
+}
+
+#orderSumHolderRight ul {
+  text-decoration: none;
+  list-style-type: none;
+  text-align: right;
+  margin: 0px;
+  padding: 0px;
+}
+#orderSumHolderRight li {
+  text-align: right;
+}
+
+#orderSumHolder {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 0px;
+}
+
 #confirmationButton:hover {
   background-color: #393c48;
 }
