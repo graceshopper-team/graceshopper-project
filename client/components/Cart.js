@@ -1,15 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchProducts } from '../store/allProducts';
 
 const shipping = 10;
 const tax = 0.07;
 
-const dummyData = [
-  { name: 'dummyitem', price: 10, quantity: 2, id: 1 },
-  { name: 'dummyitem2', price: 19, quantity: 2, id: 2 },
-  { name: 'dummyitem3', price: 14, quantity: 1, id: 3 },
-];
+// const dummyData = [
+//   {
+//     name: 'Dummyitem1',
+//     price: 10,
+//     quantity: 2,
+//     id: 1,
+//     imageUrl:
+//       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpixel.nymag.com%2Fimgs%2Fdaily%2Fselectall%2F2017%2F03%2F15%2F15-link.w190.h190.jpg&f=1&nofb=1',
+//     inventory: 50,
+//   },
+//   {
+//     name: 'Dummyitem2',
+//     price: 19,
+//     quantity: 2,
+//     id: 2,
+//     imageUrl:
+//       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpixel.nymag.com%2Fimgs%2Fdaily%2Fselectall%2F2017%2F03%2F15%2F15-link.w190.h190.jpg&f=1&nofb=1',
+//     inventory: 50,
+//   },
+//   {
+//     name: 'Dummyitem3',
+//     price: 14,
+//     quantity: 1,
+//     id: 3,
+//     imageUrl:
+//       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpixel.nymag.com%2Fimgs%2Fdaily%2Fselectall%2F2017%2F03%2F15%2F15-link.w190.h190.jpg&f=1&nofb=1',
+//     inventory: 50,
+//   },
+// ];
 
 class Cart extends React.Component {
   constructor(props) {
@@ -17,50 +42,51 @@ class Cart extends React.Component {
     this.state = {
       items: 4,
       cost: 100,
-      data: dummyData,
+      clicks: 0,
     };
-    this.counter = this.counter.bind(this);
+    this.incrementItem = this.incrementItem.bind(this);
+    this.decreaseItem = this.decreaseItem.bind(this);
   }
-  counter(evt) {
-    evt.preventDefault();
-    let index = evt.target.value;
-    let data = this.state.data;
-    data[index].quantity++;
-    this.setState = {
-      data: data,
-    };
+  componentDidMount() {
+    this.props.loadAllProducts();
+  }
+
+  incrementItem() {
+    this.setState({ clicks: this.state.clicks + 1 });
+  }
+  decreaseItem() {
+    this.setState({ clicks: this.state.clicks - 1 });
   }
 
   render() {
-    const { counter } = this;
+    const cartList = this.props.products || [];
+    const { incrementItem, decreaseItem } = this;
     return (
       <div id="cartHolder">
         <div id="cartContainer">
           <div id="cartLeft">
-            {dummyData.map((element, index) => {
+            <h2>
+              {cartList.length === 0
+                ? 'Shopping Cart Is Empty :('
+                : 'Shopping Cart'}
+            </h2>
+
+            {cartList.map((element) => {
               return (
                 <div key={element.id} id="itemList">
-                  <ul>
-                    <li>Item Name: {element.name}</li>
-                    <li>Price:{element.price}</li>
-                    <li>Quantity: {element.quantity}</li>
-                    <li>
-                      <button
-                        value={index}
-                        onClick={(evt) => {
-                          counter(evt);
-                        }}
-                      >
-                        Increment
-                      </button>
-                      <button
-                        value={element.quantity}
-                        onClick={() => element.quantity--}
-                      >
-                        Decrement
-                      </button>
-                    </li>
-                  </ul>
+                  <div>
+                    <img id="cartListImage" src={element.imageUrl} />
+                  </div>
+                  <div id="productName">
+                    <p>{element.name}</p>
+                    Price: {element.cost + ' Rupees'}
+                    <button onClick={decreaseItem}>-</button>
+                    Qty: {this.state.clicks}
+                    <button onClick={incrementItem}>+</button>
+                  </div>
+                  <button type="button" className="delete">
+                    X
+                  </button>
                 </div>
               );
             })}
@@ -104,11 +130,15 @@ class Cart extends React.Component {
   }
 }
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    products: state.allProducts,
+  };
 };
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadAllProducts: () => dispatch(fetchProducts()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
