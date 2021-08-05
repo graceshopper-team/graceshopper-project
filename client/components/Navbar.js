@@ -10,6 +10,8 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
       <div id="navleft">
         <span id="logo">Hyrule Shopper</span>
       </div>
+      <div id="navMiddle">
+      </div>
       <div id="navRight">
         {isLoggedIn ? (
           <ul>
