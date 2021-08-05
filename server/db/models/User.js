@@ -25,7 +25,7 @@ const User = db.define('user', {
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue:
-      'https://www.zeldadungeon.net/wiki/images/thumb/0/08/Link_-_SSB_Melee_Trophy_8_%28Link_Smash_1%29.png/535px-Link_-_SSB_Melee_Trophy_8_%28Link_Smash_1%29.png',
+      'https://www.zeldadungeon.net/wiki/images/f/fc/Malon_%28Oracle_of_Seasons%29.png',
     validate: {
       isUrl: true,
     },
