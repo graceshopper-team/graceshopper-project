@@ -3,21 +3,17 @@ const {
   models: { Product },
 } = require('../db');
 module.exports = router;
+const { isAdmin, requireToken } = require('./gateKeepingMiddleware');
 
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      // explicitly select only the id and username fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      //attributes: ['id', 'username']
       attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory'],
     });
     res.json(products);
   } catch (err) {
     next(err);
   }
-
 });
 
 router.get('/:productId', async (req, res, next) => {
@@ -25,7 +21,33 @@ router.get('/:productId', async (req, res, next) => {
     const product = await Product.findByPk(req.params.productId);
     res.json(product);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
+router.delete('/:productId', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const productToDelete = await Product.findByPk(req.params.productId);
+    await productToDelete.destroy();
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/:productId', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    let product = await Product.findByPk(req.params.productId);
+    res.json(await product.update(req.body));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    res.status(201).send(await Product.create(req.body));
+  } catch (error) {
+    next(error);
+  }
+});
