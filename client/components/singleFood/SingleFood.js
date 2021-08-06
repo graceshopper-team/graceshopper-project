@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import GenerateHearts from '../allFoods/GenerateHearts.js';
 
 // imports below to be used in the mapDispatchToProps,
 // then the func name assigned to store functions there to be used where needed.
@@ -18,6 +19,9 @@ import { fetchSingleProduct } from '../../store/singleProduct.js';
 class SingleFood extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      count: 1,
+    };
 
     // thinking assigning inventory to state might be a good way to get the inventory
     // to dynamically update as product is added to cart.
@@ -49,10 +53,17 @@ class SingleFood extends React.Component {
 
   // change inventory in state to value selected in quantity selection
   handleChange(evt) {
-    // consider doing check here if value > inventory available
-    // this.setState({
-    //   inventory: evt.target.value
-    // });
+    evt.preventDefault();
+    const action = evt.target.getAttribute('name');
+    if (action === 'up') {
+      let total = this.state.count + 1;
+      if (total <= this.props.product.inventory) {
+        this.setState({ count: total });
+      }
+    } else if (action === 'down') {
+      let total = this.state.count - 1;
+      if (total >= 1) this.setState({ count: total });
+    }
   }
 
   // add item to cart
@@ -74,16 +85,17 @@ class SingleFood extends React.Component {
       id,
       name,
       description,
-      category,
       hearts,
       inventory,
+      category,
       cost,
       imageUrl,
     } = product;
+    let type = category || 'none';
+    if (category) type = category.name; //have to do this
     //   const { inventory } = this.state;
 
     //const { id, name, description, category, hearts, inventory, cost, imageUrl } = fakeData;
-    const quantityToBuyInitialValue = 0;
 
     return (
       <div id={id} className="single-product-container">
@@ -95,20 +107,49 @@ class SingleFood extends React.Component {
             <img src={imageUrl} />
           </div>
           <div id="right-column">
-            <h3>
-              <b>{cost} Rupees</b>
-            </h3>
+            <h1>
+              <b>
+                {cost} Rupees <GenerateHearts hearts={hearts} />
+              </b>
+            </h1>
             <p>{description}</p>
-            <form id="buyProductForm" onSubmit={this.handleSubmit}>
-              <label htmlFor="quantityToBuy">Quantity:</label>
-              <input
-                name="quantityToBuy"
-                onChange={this.handleChange}
-                value={quantityToBuyInitialValue}
-              />
-              <button type="addToCart">add to cart</button>
-            </form>
-            <small>quantity available: {inventory}</small>
+            <span>
+              <h2>Category: {type}</h2>
+            </span>
+
+            <h4>
+              <button
+                id="counter"
+                name="down"
+                onClick={(event) => {
+                  this.handleChange(event);
+                }}
+              >
+                -
+              </button>{' '}
+              {this.state.count}{' '}
+              <button
+                id="counter"
+                name="up"
+                onClick={(event) => {
+                  this.handleChange(event);
+                }}
+              >
+                +
+              </button>
+            </h4>
+
+            <p>
+              <small>quantity available: {inventory}</small>
+            </p>
+            <div>
+              <button
+                type="addToCart"
+                onClick={(event) => this.handleSubmit(event)}
+              >
+                add to cart
+              </button>
+            </div>
           </div>
         </div>
       </div>

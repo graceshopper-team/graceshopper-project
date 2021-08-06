@@ -3,6 +3,7 @@ import Heart from '../icons/Heart';
 import HalfHeart from '../icons/HalfHeart';
 
 const GenerateHearts = (props) => {
+  if(!props.hearts) return(<span></span>)
   const wholeHearts = new Array(Math.floor(props.hearts)).fill('heart');
   const halfHearts = props.hearts - Math.floor(props.hearts);
 
