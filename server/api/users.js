@@ -3,7 +3,7 @@ const {
   models: { User },
 } = require('../db');
 module.exports = router;
-const { isAdmin, requireToken } = require('./gateKeepingMiddleware');
+const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
 
 router.get('/', requireToken, isAdmin, async (req, res, next) => {
   try {
