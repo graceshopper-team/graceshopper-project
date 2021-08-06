@@ -64,7 +64,7 @@ class Cart extends React.Component {
 
           <div id="cart-right">
             <Link to={'/ordered'}>
-              <div id="cartRightButton">
+              <div id="cart-right-button">
                 <p>Place Order</p>
               </div>
             </Link>
