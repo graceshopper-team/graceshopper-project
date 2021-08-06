@@ -6,36 +6,6 @@ import { fetchProducts } from '../store/allProducts';
 const shipping = 10;
 const tax = 0.07;
 
-// const dummyData = [
-//   {
-//     name: 'Dummyitem1',
-//     price: 10,
-//     quantity: 2,
-//     id: 1,
-//     imageUrl:
-//       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpixel.nymag.com%2Fimgs%2Fdaily%2Fselectall%2F2017%2F03%2F15%2F15-link.w190.h190.jpg&f=1&nofb=1',
-//     inventory: 50,
-//   },
-//   {
-//     name: 'Dummyitem2',
-//     price: 19,
-//     quantity: 2,
-//     id: 2,
-//     imageUrl:
-//       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpixel.nymag.com%2Fimgs%2Fdaily%2Fselectall%2F2017%2F03%2F15%2F15-link.w190.h190.jpg&f=1&nofb=1',
-//     inventory: 50,
-//   },
-//   {
-//     name: 'Dummyitem3',
-//     price: 14,
-//     quantity: 1,
-//     id: 3,
-//     imageUrl:
-//       'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpixel.nymag.com%2Fimgs%2Fdaily%2Fselectall%2F2017%2F03%2F15%2F15-link.w190.h190.jpg&f=1&nofb=1',
-//     inventory: 50,
-//   },
-// ];
-
 class Cart extends React.Component {
   constructor(props) {
     super(props);
@@ -62,9 +32,9 @@ class Cart extends React.Component {
     const cartList = this.props.products || [];
     const { incrementItem, decreaseItem } = this;
     return (
-      <div id="cartHolder">
-        <div id="cartContainer">
-          <div id="cartLeft">
+      <div id="cart-holder">
+        <div id="cart-container">
+          <div id="cart-left">
             <h2>
               {cartList.length === 0
                 ? 'Shopping Cart Is Empty :('
@@ -73,11 +43,11 @@ class Cart extends React.Component {
 
             {cartList.map((element) => {
               return (
-                <div key={element.id} id="itemList">
+                <div key={element.id} id="item-list">
                   <div>
-                    <img id="cartListImage" src={element.imageUrl} />
+                    <img id="cart-list-image" src={element.imageUrl} />
                   </div>
-                  <div id="productName">
+                  <div id="product-name">
                     <p>{element.name}</p>
                     Price: {element.cost + ' Rupees'}
                     <button onClick={decreaseItem}>-</button>
@@ -92,15 +62,15 @@ class Cart extends React.Component {
             })}
           </div>
 
-          <div id="cartRight">
+          <div id="cart-right">
             <Link to={'/ordered'}>
-              <div id="cartRightButton">
+              <div id="cart-right-button">
                 <p>Place Order</p>
               </div>
             </Link>
             <h2>Order Summary</h2>
-            <div id="orderSumHolder">
-              <div id="orderSumHolderLeft">
+            <div id="order-sum-holder">
+              <div id="order-sum-holder-left">
                 <ul>
                   <li>Items: ({this.state.items})</li>
                   <li>Shipping:</li>
@@ -109,7 +79,7 @@ class Cart extends React.Component {
                 </ul>
               </div>
 
-              <div id="orderSumHolderRight">
+              <div id="order-sum-holder-right">
                 <ul>
                   <li>{this.state.cost} Rupees</li>
                   <li>{shipping} Rupees</li>
@@ -132,7 +102,7 @@ class Cart extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.allProducts,
+    products: state.allProducts.list,
   };
 };
 const mapDispatchToProps = (dispatch) => {

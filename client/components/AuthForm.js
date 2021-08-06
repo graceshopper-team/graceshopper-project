@@ -11,8 +11,8 @@ const AuthForm = (props) => {
 
   console.log(props.name);
   return (
-    <div id="authformHolder">
-      <div id="authform">
+    <div id="auth-form-holder">
+      <div id="auth-form">
         {props.name === 'login' ? (
           <p>Login to your account</p>
         ) : (
@@ -37,7 +37,7 @@ const AuthForm = (props) => {
             <button type="submit">{displayName}</button>
           </div>
 
-          {error && error.response && <div id="loginError"> {error.response.data} </div>}
+          {error && error.response && <div id="login-error"> {error.response.data} </div>}
         </form>
       </div>
       {props.name === 'login' ? ( <Link to={'/signup'}><span>Don't Have An Account?  Click Here to Register</span></Link>) : (<span></span>)}

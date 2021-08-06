@@ -2,17 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
-// import "../../public/styles/nav.css";
+import ShoppingCart from "./icons/ShoppingCart";
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div id="navbar">
     <nav>
-      <div id="navleft">
-        <span id="logo">Hyrule Shopper</span>
+      <div id="nav-left">
+        <div id="logo"></div>
       </div>
-      <div id="navMiddle">
-      </div>
-      <div id="navRight">
+      <div id="nav-right">
         {isLoggedIn ? (
           <ul>
             {/* The navbar will show these links after you log in */}
@@ -24,7 +22,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
                 Logout
               </a>
             </li>
-            <li>Cart</li>
+            <Link to="/cart"><li>Cart  <ShoppingCart/> </li></Link>
           </ul>
         ) : (
           <ul>
@@ -38,7 +36,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
             <li>
               <Link to="/signup">Sign Up</Link>
             </li>
-            <li><a href="">Cart</a></li>
+            <li><Link to="/cart">Cart  <ShoppingCart/></Link></li>
           </ul>
         )}
       </div>

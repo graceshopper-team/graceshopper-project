@@ -1,8 +1,13 @@
 body {
-  display: flex;
-  flex-direction: column;
-  margin: 0px;
+  margin: 0;
+
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+#app {
+  margin: auto;
+}
 
+#routeHolder {
+  margin: auto;
+}

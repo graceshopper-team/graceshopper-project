@@ -21,13 +21,13 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div>
+      <div id="routeHolder">
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
             <Route exact path="/products" component={AllFood} />
             <Route path="/products/:productId" component={SingleFood} />
-            <Route path="/cart" component={Cart} /> 
+            <Route path="/cart" component={Cart} />
             <Route exact path="/ordered" component={OrderConfirmation} />
             <Redirect to="/products" />
           </Switch>

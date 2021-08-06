@@ -4,8 +4,8 @@ const initialState = {};
 
 //action type
 const SET_PRODUCT = 'SET_PRODUCT';
- 
-//action creator 
+
+//action creator
 export const setProduct = (product) => {
     return {
         type: SET_PRODUCT,
@@ -29,9 +29,9 @@ export const fetchSingleProduct = (productId) => {
 //Reducer
 export default function productReducer(state = initialState, action) {
     switch(action.type) {
-        case SET_PRODUCT: 
+        case SET_PRODUCT:
             return action.product;
-            
+
         default:
             return state;
     }

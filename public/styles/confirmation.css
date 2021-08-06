@@ -1,4 +1,4 @@
-#confirmationContainer {
+#confirmation-container {
   background-color: #f9914c;
   display: flex;
   flex-direction: column;
@@ -13,25 +13,25 @@
   text-align: center;
 }
 
-#confirmationContainer h1 {
+#confirmation-container h1 {
   font-size: 40px;
 }
-#confirmationHolder {
+#confirmation-holder {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-#confirmationContainer > p {
+#confirmation-container > p {
   font-size: 35px;
   font-weight: bold;
   line-height: 2;
 }
-#confirmationContainer a {
+#confirmation-container a {
   text-decoration: none;
 }
-#confirmationButton {
+#confirmation-button {
   background-color: #6c6acc;
   color: white;
   font-weight: bold;
@@ -46,6 +46,6 @@
   justify-content: center;
 }
 
-#confirmationButton:hover {
+#confirmation-button:hover {
   background-color: #393c48;
 }

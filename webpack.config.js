@@ -18,6 +18,20 @@ module.exports = {
             '@babel/preset-react'
           ]
         }
+      },
+      {
+        test: /\.(png)/,
+        use: [
+          "file-loader",
+          {
+            loader: "image-webpack-loader",
+            options: {
+              optipng: {
+                optimizationLevel: 7,
+              }
+            }
+          }
+        ]
       }
     ]
   }

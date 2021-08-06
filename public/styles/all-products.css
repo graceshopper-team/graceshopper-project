@@ -1,19 +1,18 @@
-
-#allProductsContainer {
+#all-products-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-top: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 1400px;
+  padding-top: 90px;
+  margin: auto;
+  user-select: none;
 }
-#allProuctsHolder {
+#all-proucts-holder {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 1200px;
+  max-width: 1080px;
 }
 
-.allFoodItem {
+.all-food-item {
   width: 260px;
   height: 320px;
   margin-left: 5px;
@@ -25,10 +24,10 @@
   justify-content: space-around;
 }
 
-.allFoodItem p {
+.all-food-item p {
   margin: 0px;
 }
-.allFoodItem button {
+.all-food-item button {
   background-color: #6c6acc;
   color: white;
   font-weight: bold;
@@ -53,31 +52,92 @@
   justify-content: center;
 }
 
-.allFoodItem button:hover {
+.all-food-item button:hover {
   background-color: #393c48;
+  transition: 0.25s;
 }
 
-.allItemName {
+.all-item-name {
   font-size: 18px;
-}
-.allItemName:hover {
-  text-decoration: underline;
+  font-weight: bold;
 }
 
-.allItemPrice {
+.all-item-name:hover {
+  text-decoration: underline;
+  transition: 0.25s;
+}
+
+.all-item-price {
   font-size: 30px;
   font-weight: bolder;
 }
 
-.allFoodItem img {
+.all-food-item img {
   width: 240px;
   height: 200px;
 }
 
-.allFoodItem a {
+.all-food-item img:hover{
+  opacity: 0.8;
+  transition: 0.25s;
+}
+
+.all-food-item a {
   text-decoration: none;
   color: inherit;
   font-family: inherit;
   font-size: inherit;
+}
+
+.hearts svg {
+  color: #c41e21;
+  margin-top: 10px;
+}
+
+
+#filter-container{
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+
+  max-width: 1300px;
+}
+
+#filter{
+  width: 250px;
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+}
+
+#filter h1{
+  text-align: center;
+  margin: 5px
+}
+
+#filter h3{
+  font-size: 1.2em;
+  margin: auto;
+  padding: 10px
+}
+#filter h3:hover{
+  background-color: #6c6acc;
+  border-radius: 10px;
+  width: 150px;
+  margin: auto;
+  color:white
+
+}
+
+#filter h2{
+  font-size: 1.2em;
+  padding: 10px;
+  color: white;
+  background-color: #F9914C;
+  border-radius: 10px;
+  width: 150px;
+  margin: auto;
 }
 
