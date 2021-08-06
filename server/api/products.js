@@ -4,7 +4,7 @@ const {
 } = require('../db');
 module.exports = router;
 
-const { isAdmin, requireToken } = require('./gateKeepingMiddleware');
+const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
 
 router.get('/', async (req, res, next) => {
   try {
