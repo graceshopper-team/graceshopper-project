@@ -1,7 +1,14 @@
 #logo {
-  font-size: 30px;
+  /* font-size: 30px;
   width: 150px;
-  color: white;
+  color: white; */
+  background: url(./../hyrule_logo.png);
+  background-repeat: none;
+  background-size: contain;
+  z-index: 100;
+  width: 330px;
+  height: 70px;
+  margin-top: 10px;
 }
 
 #navbar {
@@ -10,11 +17,8 @@
   position: fixed;
   top: 0px;
   width: 100%;
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 60px; */
   user-select: none;
+  z-index: 99;
 }
 #navLeft {
   display: flex;
@@ -22,9 +26,7 @@
   flex-direction: column;
 }
 
-#navMiddle {
-  max-width: 800px;
-}
+
 
 nav {
   color: white;
@@ -49,6 +51,12 @@ nav a {
 
 nav a:hover {
   text-decoration: underline;
+  transition: 0.25s;
+}
+
+nav a li:hover{
+  text-decoration: underline;
+  transition: 0.25s;
 }
 
 li {

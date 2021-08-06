@@ -1,16 +1,37 @@
 const router = require('express').Router();
 const {
-  models: { Product },
+  models: { Product, Category },
 } = require('../db');
 module.exports = router;
+
 const { isAdmin, requireToken } = require('./gateKeepingMiddleware');
 
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll({
-      attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory'],
-    });
-    res.json(products);
+    if (req.query.filter === 'none') {
+      const products = await Product.findAll({
+        include: {
+          model: Category,
+          attributes: ['name'],
+        },
+        attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory', 'hearts'],
+      });
+      res.json(products);
+    }
+    //uses filter in query to only get foods with matching category
+    else {
+      const products = await Product.findAll({
+        include: {
+          model: Category,
+          attributes: ['name'],
+          where: {
+            name: req.query.filter,
+          },
+        },
+        attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory', 'hearts'],
+      });
+      res.json(products);
+    }
   } catch (err) {
     next(err);
   }

@@ -132,7 +132,7 @@ class Cart extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.allProducts,
+    products: state.allProducts.list,
   };
 };
 const mapDispatchToProps = (dispatch) => {

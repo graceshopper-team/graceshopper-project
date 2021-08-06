@@ -1,16 +1,15 @@
-
 #allProductsContainer {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-top: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 1400px;
+  padding-top: 90px;
+  margin: auto;
+  user-select: none;
 }
 #allProuctsHolder {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 1200px;
+  max-width: 1080px;
 }
 
 .allFoodItem {
@@ -55,13 +54,17 @@
 
 .allFoodItem button:hover {
   background-color: #393c48;
+  transition: 0.25s;
 }
 
 .allItemName {
   font-size: 18px;
+  font-weight: bold;
 }
+
 .allItemName:hover {
   text-decoration: underline;
+  transition: 0.25s;
 }
 
 .allItemPrice {
@@ -74,10 +77,67 @@
   height: 200px;
 }
 
+.allFoodItem img:hover{
+  opacity: 0.8;
+  transition: 0.25s;
+}
+
 .allFoodItem a {
   text-decoration: none;
   color: inherit;
   font-family: inherit;
   font-size: inherit;
+}
+
+.hearts svg {
+  color: #c41e21;
+  margin-top: 10px;
+}
+
+
+#filterContainer{
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+
+  max-width: 1300px;
+}
+
+#filter{
+  width: 250px;
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+}
+
+#filter h1{
+  text-align: center;
+  margin: 5px
+}
+
+#filter h3{
+  font-size: 1.2em;
+  margin: auto;
+  padding: 10px
+}
+#filter h3:hover{
+  background-color: #6c6acc;
+  border-radius: 10px;
+  width: 150px;
+  margin: auto;
+  color:white
+
+}
+
+#filter h2{
+  font-size: 1.2em;
+  padding: 10px;
+  color: white;
+  background-color: #F9914C;
+  border-radius: 10px;
+  width: 150px;
+  margin: auto;
 }
 
