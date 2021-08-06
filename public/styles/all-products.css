@@ -1,18 +1,18 @@
-#allProductsContainer {
+#all-products-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   max-width: 1400px;
   padding-top: 90px;
   margin: auto;
   user-select: none;
 }
-#allProuctsHolder {
+#all-proucts-holder {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   max-width: 1080px;
 }
 
-.allFoodItem {
+.all-food-item {
   width: 260px;
   height: 320px;
   margin-left: 5px;
@@ -24,10 +24,10 @@
   justify-content: space-around;
 }
 
-.allFoodItem p {
+.all-food-item p {
   margin: 0px;
 }
-.allFoodItem button {
+.all-food-item button {
   background-color: #6c6acc;
   color: white;
   font-weight: bold;
@@ -52,37 +52,37 @@
   justify-content: center;
 }
 
-.allFoodItem button:hover {
+.all-food-item button:hover {
   background-color: #393c48;
   transition: 0.25s;
 }
 
-.allItemName {
+.all-item-name {
   font-size: 18px;
   font-weight: bold;
 }
 
-.allItemName:hover {
+.all-item-name:hover {
   text-decoration: underline;
   transition: 0.25s;
 }
 
-.allItemPrice {
+.all-item-price {
   font-size: 30px;
   font-weight: bolder;
 }
 
-.allFoodItem img {
+.all-food-item img {
   width: 240px;
   height: 200px;
 }
 
-.allFoodItem img:hover{
+.all-food-item img:hover{
   opacity: 0.8;
   transition: 0.25s;
 }
 
-.allFoodItem a {
+.all-food-item a {
   text-decoration: none;
   color: inherit;
   font-family: inherit;
@@ -95,7 +95,7 @@
 }
 
 
-#filterContainer{
+#filter-container{
   display: flex;
   flex-direction: row;
   margin: auto;

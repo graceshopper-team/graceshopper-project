@@ -16,7 +16,12 @@ router.get('/', async (req, res, next) => {
         },
         attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory', 'hearts'],
       });
-      res.json(products);
+      if (products) res.json(products);
+      else {
+        const error = new Error('Error Loading Products');
+        res.sendStatus(404);
+        next(error);
+      }
     }
     //uses filter in query to only get foods with matching category
     else {
@@ -30,7 +35,12 @@ router.get('/', async (req, res, next) => {
         },
         attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory', 'hearts'],
       });
-      res.json(products);
+      if (products) res.json(products);
+      else {
+        const error = new Error('Error Loading Products');
+        res.sendStatus(404);
+        next(error);
+      }
     }
   } catch (err) {
     next(err);
@@ -44,10 +54,15 @@ router.get('/:productId', async (req, res, next) => {
         {
           model: Category,
           attributes: ['name'],
-        }
-      ]
+        },
+      ],
     });
-    res.json(product);
+    if (product) res.json(product);
+    else {
+      const error = new Error('No Product With That ID Found');
+      res.sendStatus(404);
+      next(error);
+    }
   } catch (err) {
     next(err);
   }
@@ -56,8 +71,14 @@ router.get('/:productId', async (req, res, next) => {
 router.delete('/:productId', requireToken, isAdmin, async (req, res, next) => {
   try {
     const productToDelete = await Product.findByPk(req.params.productId);
-    await productToDelete.destroy();
-    res.sendStatus(204);
+    if (productToDelete) {
+      await productToDelete.destroy();
+      res.sendStatus(204);
+    } else {
+      const error = new Error('No Product With That ID Found');
+      res.sendStatus(404);
+      next(error);
+    }
   } catch (error) {
     next(error);
   }
@@ -66,7 +87,12 @@ router.delete('/:productId', requireToken, isAdmin, async (req, res, next) => {
 router.put('/:productId', requireToken, isAdmin, async (req, res, next) => {
   try {
     let product = await Product.findByPk(req.params.productId);
-    res.json(await product.update(req.body));
+    if (product) res.json(await product.update(req.body));
+    else {
+      const error = new Error('No Product With That ID Found');
+      res.sendStatus(404);
+      next(error);
+    }
   } catch (error) {
     next(error);
   }

@@ -16,11 +16,10 @@
   justify-content: space-between;
   gap: 20px;
   padding: 5px;
-
 }
 
 #left-column {
-  flex: .4 1 40%;
+  flex: 0.4 1 40%;
 }
 
 #right-column {
@@ -29,12 +28,10 @@
   flex-direction: column;
   align-items: center;
   max-width: 400px;
-
-
 }
 
 #right-column p {
-  color: "#7D7676"
+  color: '#7D7676';
 }
 
 .single-product-container img {
@@ -62,13 +59,10 @@
 
 .single-product-container button:hover {
   background-color: #29293c;
-
 }
 
-#counter{
+#counter {
   width: 25px;
   height: 25px;
   border-radius: 15px;
 }
-
-

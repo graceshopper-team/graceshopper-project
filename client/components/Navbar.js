@@ -7,12 +7,10 @@ import ShoppingCart from "./icons/ShoppingCart";
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div id="navbar">
     <nav>
-      <div id="navleft">
+      <div id="nav-left">
         <div id="logo"></div>
       </div>
-      <div className="navMiddle">
-      </div>
-      <div id="navRight">
+      <div id="nav-right">
         {isLoggedIn ? (
           <ul>
             {/* The navbar will show these links after you log in */}

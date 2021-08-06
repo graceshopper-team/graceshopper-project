@@ -20,11 +20,11 @@ class AllFood extends React.Component {
     const productsList = this.props.products || [];
 
     return (
-      <div id="allProductsContainer">
-        <div id="filterContainer">
+      <div id="all-products-container">
+        <div id="filter-container">
           <Filter />
 
-          <div id="allProuctsHolder">
+          <div id="all-proucts-holder">
             {productsList.map((element) => {
               return (
                 <AllFoodItem
@@ -32,7 +32,7 @@ class AllFood extends React.Component {
                   key={element.id}
                   cost={element.cost}
                   imageUrl={element.imageUrl}
-                  db_id={element.id}
+                  id={element.id}
                   inventory={element.inventory}
                   hearts={element.hearts}
                 />

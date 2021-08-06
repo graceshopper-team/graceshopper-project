@@ -14,16 +14,16 @@ export default function AllFoodItem(props) {
     );
   }
   return (
-    <div className="allFoodItem">
-      <Link to={`/products/${props.db_id}`}>
+    <div className="all-food-item">
+      <Link to={`/products/${props.id}`}>
         <img src={props.imageUrl} alt={`${props.name}'s image`} />
       </Link>
       <div id="allItemInfo">
-        <Link to={`/products/${props.db_id}`}>
-          <p className="allItemName"> {props.name}</p>
+        <Link to={`/products/${props.id}`}>
+          <p className="all-item-name"> {props.name}</p>
         </Link>
         <p><GenerateHearts hearts={props.hearts}/></p>
-        <p className="allItemPrice"> {props.cost} Rupees</p>
+        <p className="all-item-price"> {props.cost} Rupees</p>
 
         {props.inventory === 0 ? (
           <div className="oos">

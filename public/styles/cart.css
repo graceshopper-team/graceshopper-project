@@ -1,4 +1,4 @@
-#cartHolder {
+#cart-holder {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-top: 100px;
   display: flex;
@@ -6,34 +6,34 @@
   align-items: center;
 }
 
-#cartContainer {
+#cart-container {
   width: 1000px;
   display: flex;
   flex-direction: row;
 }
 
-#cartLeft {
+#cart-left {
   width: 700px;
   margin-right: 100px;
 }
 
-#cartLeft ul {
+#cart-left ul {
   text-decoration: none;
   list-style-type: none;
 }
-#productName {
+#product-name {
   font-size: 20px;
   text-align: left;
 }
 
-#productName p {
+#product-name p {
   font-size: 30px;
   font-weight: 500;
   margin-top: 0px;
   margin-bottom: 5px;
 }
 
-#productName button {
+#product-name button {
   margin: 0px 10px;
   background-color: #9f9f9f;
   border-radius: 50%;
@@ -44,7 +44,7 @@
   font-weight: bold;
 }
 
-#productName button:hover {
+#product-name button:hover {
   background-color: #696767;
   transition: 0.2s;
 }
@@ -63,12 +63,12 @@
   transition: 0.25s;
 }
 
-#cartListImage {
+#cart-list-image {
   height: 90px;
   width: 90px;
 }
 
-#itemList {
+#item-list {
   height: 110px;
   width: 600px;
   border-style: solid;
@@ -81,22 +81,22 @@
   justify-content: space-around;
 }
 
-#cartRight {
+#cart-right {
   margin-top: 40px;
   width: 300px;
   background-color: white;
 }
-#cartRight a {
+#cart-right a {
   text-decoration: none;
 }
 
-#cartRight ul {
+#cart-right ul {
   text-decoration: none;
   list-style-type: none;
   margin: 0px;
 }
 
-#cartRightButton {
+#cart-right-button {
   background-color: #6c6acc;
   color: white;
   font-weight: bold;
@@ -110,45 +110,45 @@
   justify-content: center;
 }
 
-#cartRightButton:hover {
+#cart-right-button:hover {
   background-color: #393c48;
   transition: 0.2s;
   transform: scale(1.05);
 }
 
-#orderSumHolderLeft ul {
+#order-sum-holder-left ul {
   text-decoration: none;
   list-style-type: none;
   text-align: left;
   margin: 0px;
   padding: 0px;
 }
-#orderSumHolderLeft li {
+#order-sum-holder-left li {
   text-align: left;
 }
 
-#orderSumHolderLeft {
+#order-sum-holder-left {
   text-align: right;
   width: 140px;
 }
 
-#orderSumHolderRight {
+#order-sum-holder-right {
   text-align: right;
   width: 140px;
 }
 
-#orderSumHolderRight ul {
+#order-sum-holder-right ul {
   text-decoration: none;
   list-style-type: none;
   text-align: right;
   margin: 0px;
   padding: 0px;
 }
-#orderSumHolderRight li {
+#order-sum-holder-right li {
   text-align: right;
 }
 
-#orderSumHolder {
+#order-sum-holder {
   width: 300px;
   display: flex;
   flex-direction: row;
