@@ -2,16 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ShoppingCart from '../icons/ShoppingCart';
 import GenerateHearts from './GenerateHearts';
+import { connect } from 'react-redux';
+import AllFood from './AllFood';
+import { addToCartThunk } from '../../store/cart';
+import { useHistory } from 'react-router-dom';
 
-export default function AllFoodItem(props) {
+const AllFoodItem = (props) => {
+  const history = useHistory();
   function click(evt) {
     evt.preventDefault();
-    console.log(
-      'add to cart button clicked for',
-      props.name,
-      'id is',
-      props.db_id
-    );
+    props.addToCartThunk(props.userid, props.id, 1);
+    history.push('/cart');
   }
   return (
     <div className="all-food-item">
@@ -22,7 +23,9 @@ export default function AllFoodItem(props) {
         <Link to={`/products/${props.id}`}>
           <p className="all-item-name"> {props.name}</p>
         </Link>
-        <p><GenerateHearts hearts={props.hearts}/></p>
+        <p>
+          <GenerateHearts hearts={props.hearts} />
+        </p>
         <p className="all-item-price"> {props.cost} Rupees</p>
 
         {props.inventory === 0 ? (
@@ -35,10 +38,20 @@ export default function AllFoodItem(props) {
               click(evt);
             }}
           >
-            <ShoppingCart/>  Add To Cart
+            <ShoppingCart /> Add To Cart
           </button>
         )}
       </div>
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  userid: state.auth.id,
+});
+const mapDispatchToProps = (dispatch) => ({
+  addToCartThunk: (userId, productId, quantity) =>
+    dispatch(addToCartThunk(userId, productId, quantity)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllFoodItem);
