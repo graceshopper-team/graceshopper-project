@@ -66,3 +66,18 @@ router.delete('/:userId/:productId', async (req, res, next) => {
     next(error);
   }
 });
+
+//delete the items in cart when user 'checks out' (tier 1 requirements min-maxing)
+router.delete('/:userId/', async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    await Cart.destroy({
+      where: {
+        userId: userId,
+      },
+    });
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+});

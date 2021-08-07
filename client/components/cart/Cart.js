@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchCart, deleteThunk } from '../../store/cart';
+import { withRouter } from 'react-router-dom';
+import { fetchCart, deleteThunk, deleteCartThunk } from '../../store/cart';
 import QuantityChanger from './QuantityChanger';
 import ShoppingCart from '../icons/ShoppingCart';
 
@@ -19,6 +20,7 @@ class Cart extends React.Component {
     };
     this.delete = this.delete.bind(this);
     this.getTotal = this.getTotal.bind(this);
+    this.checkout = this.checkout.bind(this);
   }
 
   //calculate total amount of items
@@ -63,11 +65,20 @@ class Cart extends React.Component {
     }
   }
 
-  //deletes product for cart db of user
+  //deletes single product from cart db of user
   delete(evt) {
+    evt.preventDefault();
     const productId = evt.target.getAttribute('name');
     const userId = this.props.userid;
     this.props.deleteProduct(userId, productId);
+  }
+
+  //deletes all of the carts in db user on 'checkout'
+  checkout(evt) {
+    evt.preventDefault();
+    const userId = this.props.userid;
+    this.props.deleteCart(userId);
+    this.props.history.push('/ordered');
   }
 
   render() {
@@ -107,7 +118,6 @@ class Cart extends React.Component {
                       inventory={element.product.inventory}
                     />
                     <small>available: {element.product.inventory}</small>
-
                   </div>
                   <button
                     type="button"
@@ -130,13 +140,16 @@ class Cart extends React.Component {
                 <p>Cart is empty</p>
               </div>
             ) : (
-              <Link to={'/ordered'}>
-                <div id="cart-right-button">
-                  <p>
-                    <ShoppingCart /> Place Order
-                  </p>
-                </div>
-              </Link>
+              <div
+                id="cart-right-button"
+                onClick={(evt) => {
+                  this.checkout(evt);
+                }}
+              >
+                <p>
+                  <ShoppingCart /> Place Order
+                </p>
+              </div>
             )}
 
             <h2>Order Summary</h2>
@@ -184,6 +197,7 @@ const mapDispatchToProps = (dispatch) => {
     loadCart: (userId) => dispatch(fetchCart(userId)),
     deleteProduct: (userId, productId) =>
       dispatch(deleteThunk(userId, productId)),
+    deleteCart: (userId) => dispatch(deleteCartThunk(userId)),
   };
 };
 

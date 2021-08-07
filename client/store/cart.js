@@ -3,7 +3,7 @@ import axios from 'axios';
 const SET_CART = 'SET_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
 const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
-const CLEAR_CART_STORE = "CLEAR_CART_STORE";
+const CLEAR_CART_STORE = 'CLEAR_CART_STORE';
 
 //action creator
 export const setCart = (cart) => {
@@ -13,21 +13,20 @@ export const setCart = (cart) => {
   };
 };
 
-
 //this is for when a user logs out
 export const clearCartStore = () => {
   return {
-    type: CLEAR_CART_STORE
-  }
-}
+    type: CLEAR_CART_STORE,
+  };
+};
 
 export const changeQty = (row) => {
   let id = row.data.id;
-  let quantity = row.data.quantity
+  let quantity = row.data.quantity;
   return {
     type: CHANGE_QUANTITY,
     id,
-    quantity
+    quantity,
   };
 };
 
@@ -36,6 +35,17 @@ export const deleteCartItem = (userId, productId) => {
     type: DELETE_ITEM,
     userId,
     productId,
+  };
+};
+
+export const deleteCartThunk = (userId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/api/cart/${userId}`);
+      dispatch(clearCartStore());
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 
@@ -79,7 +89,7 @@ export const fetchCart = (userId) => {
 export default function cartReducer(state = [], action) {
   switch (action.type) {
     case CLEAR_CART_STORE:
-      return []
+      return [];
     case CHANGE_QUANTITY:
       let cartl = state;
       cartl = cartl.map((element) => {
