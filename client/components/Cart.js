@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchProducts } from '../store/allProducts';
+import { fetchCart, deleteThunk } from '../store/cart';
+import { me } from '../store';
+import { increaseQuantityThunk, decreaseQuantityThunk } from '../store/cart';
 
 const shipping = 10;
 const tax = 0.07;
@@ -16,21 +18,47 @@ class Cart extends React.Component {
     };
     this.incrementItem = this.incrementItem.bind(this);
     this.decreaseItem = this.decreaseItem.bind(this);
+    this.delete = this.delete.bind(this);
   }
   componentDidMount() {
-    this.props.loadAllProducts();
+    this.props.loadInitialData();
   }
 
-  incrementItem() {
-    this.setState({ clicks: this.state.clicks + 1 });
+  componentDidUpdate(previousProps) {
+    if (this.props.userId.id !== previousProps.userId.id) {
+      const userID = this.props.userId;
+      this.props.loadCart(userID.id);
+    }
   }
-  decreaseItem() {
-    this.setState({ clicks: this.state.clicks - 1 });
+
+  incrementItem(evt) {
+    const id = evt.target.getAttribute('name');
+    const index = Number(evt.target.getAttribute('title'));
+    const inventory = Number(evt.target.value);
+    let quantity = this.props.cart[index].quantity;
+    if (inventory > quantity) {
+      quantity++;
+      this.props.increaseQuantity(quantity, id);
+    }
+  }
+  decreaseItem(evt) {
+    const id = evt.target.getAttribute('name');
+    const index = Number(evt.target.getAttribute('title'));
+    let quantity = this.props.cart[index].quantity;
+    if (1 < quantity) {
+      quantity--;
+      this.props.decreaseQuantity(quantity, id);
+    }
+  }
+  delete(evt) {
+    const productId = evt.target.getAttribute('name');
+    const userId = this.props.userId.id;
+    this.props.deleteProduct(userId, productId);
   }
 
   render() {
-    const cartList = this.props.products || [];
-    const { incrementItem, decreaseItem } = this;
+    const cartList = this.props.cart || [];
+
     return (
       <div id="cart-holder">
         <div id="cart-container">
@@ -41,20 +69,44 @@ class Cart extends React.Component {
                 : 'Shopping Cart'}
             </h2>
 
-            {cartList.map((element) => {
+            {cartList.map((element, index) => {
               return (
                 <div key={element.id} id="item-list">
                   <div>
-                    <img id="cart-list-image" src={element.imageUrl} />
+                    <img id="cart-list-image" src={element.product.imageUrl} />
                   </div>
                   <div id="product-name">
-                    <p>{element.name}</p>
-                    Price: {element.cost + ' Rupees'}
-                    <button onClick={decreaseItem}>-</button>
-                    Qty: {this.state.clicks}
-                    <button onClick={incrementItem}>+</button>
+                    <p>{element.product.name}</p>
+                    Price: {element.product.cost + ' Rupees'}
+                    <button
+                      onClick={(evt) => {
+                        this.decreaseItem(evt);
+                      }}
+                      name={element.id}
+                      title={index}
+                    >
+                      -
+                    </button>
+                    Qty: {element.quantity}
+                    <button
+                      onClick={(evt) => {
+                        this.incrementItem(evt);
+                      }}
+                      name={element.id}
+                      title={index}
+                      value={element.product.inventory}
+                    >
+                      +
+                    </button>
                   </div>
-                  <button type="button" className="delete">
+                  <button
+                    type="button"
+                    className="delete"
+                    name={element.product.id}
+                    onClick={(event) => {
+                      this.delete(event);
+                    }}
+                  >
                     X
                   </button>
                 </div>
@@ -102,12 +154,23 @@ class Cart extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.allProducts.list,
+    userId: state.auth,
+    isLoggedIn: !!state.auth.id,
+    cart: state.cartReducer,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadAllProducts: () => dispatch(fetchProducts()),
+    loadCart: (userId) => dispatch(fetchCart(userId)),
+    loadInitialData() {
+      dispatch(me());
+    },
+    deleteProduct: (userId, productId) =>
+      dispatch(deleteThunk(userId, productId)),
+    increaseQuantity: (quantity, rowId) =>
+      dispatch(increaseQuantityThunk(quantity, rowId)),
+    decreaseQuantity: (quantity, rowId) =>
+      dispatch(decreaseQuantityThunk(quantity, rowId)),
   };
 };
 
