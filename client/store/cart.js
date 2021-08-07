@@ -4,7 +4,7 @@ const SET_CART = 'SET_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
 const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
 const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
-//deletecart , remove item, update item
+const CLEAR_CART_STORE = "CLEAR_CART_STORE";
 
 //action creator
 export const setCart = (cart) => {
@@ -13,6 +13,14 @@ export const setCart = (cart) => {
     cart,
   };
 };
+
+
+//this is for when a user logs out
+export const clearCartStore = () => {
+  return {
+    type: CLEAR_CART_STORE
+  }
+}
 
 export const increaseQty = (row) => {
   let id = row.data.id;
@@ -78,7 +86,6 @@ export const decreaseQuantityThunk = (quantity, rowId) => {
 };
 
 export const fetchCart = (userId) => {
-  console.log(userId, typeof userId);
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`/api/cart/${userId}`);
@@ -92,6 +99,8 @@ export const fetchCart = (userId) => {
 //reducer
 export default function cartReducer(state = [], action) {
   switch (action.type) {
+    case CLEAR_CART_STORE:
+      return []
     case INCREASE_QUANTITY:
       let cartl = state;
       cartl = cartl.map((element) => {

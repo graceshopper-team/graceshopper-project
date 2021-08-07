@@ -1,14 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { logout } from "../store";
-import ShoppingCart from "./icons/ShoppingCart";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { logout } from '../store';
+import ShoppingCart from './icons/ShoppingCart';
+import { clearCartStore } from '../store/cart.js';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div id="navbar">
     <nav>
       <div id="nav-left">
-        <div id="logo"></div>
+        <Link to="/products/"><div id="logo"></div></Link>
       </div>
       <div id="nav-right">
         {isLoggedIn ? (
@@ -22,7 +23,11 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
                 Logout
               </a>
             </li>
-            <Link to="/cart"><li>Cart  <ShoppingCart/> </li></Link>
+            <Link to="/cart">
+              <li>
+                Cart <ShoppingCart />{' '}
+              </li>
+            </Link>
           </ul>
         ) : (
           <ul>
@@ -36,7 +41,11 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
             <li>
               <Link to="/signup">Sign Up</Link>
             </li>
-            <li><Link to="/cart">Cart  <ShoppingCart/></Link></li>
+            <li>
+              <Link to="/cart">
+                Cart <ShoppingCart />
+              </Link>
+            </li>
           </ul>
         )}
       </div>
@@ -57,6 +66,7 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout());
+      dispatch(clearCartStore());
     },
   };
 };

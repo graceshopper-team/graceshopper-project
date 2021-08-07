@@ -24,7 +24,8 @@
 }
 #nav-left {
   position: fixed;
-  left: 20px;
+  left: 30px;
+  top: -2px
 }
 
 #nav-right {

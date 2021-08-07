@@ -1,55 +1,63 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchCart, deleteThunk } from '../store/cart';
-import { me } from '../store';
-import { increaseQuantityThunk, decreaseQuantityThunk } from '../store/cart';
+import { fetchCart, deleteThunk } from '../../store/cart';
+import QuantityChanger from './QuantityChanger';
+import ShoppingCart from '../icons/ShoppingCart';
 
-const shipping = 10;
+const shipping = (items) => {
+  return Math.floor(items * 1.5)
+};
 const tax = 0.07;
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: 4,
-      cost: 100,
-      clicks: 0,
+      items: 0,
+      cost: 0,
     };
-    this.incrementItem = this.incrementItem.bind(this);
-    this.decreaseItem = this.decreaseItem.bind(this);
     this.delete = this.delete.bind(this);
+    this.getTotal = this.getTotal.bind(this)
   }
-  componentDidMount() {
-    this.props.loadInitialData();
+
+  getTotal(arry){
+    let total = 0
+    arry.map((element) => {
+      total += element.quantity
+    })
+    return total
+  }
+  getCost(arry){
+    let cost = 0
+    arry.map((element) => {
+      cost += (element.quantity * element.product.cost)
+    })
+    return cost
   }
 
   componentDidUpdate(previousProps) {
-    if (this.props.userId.id !== previousProps.userId.id) {
-      const userID = this.props.userId;
-      this.props.loadCart(userID.id);
+    if(previousProps.cart.length > 0){
+      if(this.state.items !== this.getTotal(previousProps.cart)){
+        let total = this.getTotal(previousProps.cart)
+        this.setState({items: total })
+      }
+      if(this.state.cost !== this.getCost(previousProps.cart)){
+        let cost = this.getCost(previousProps.cart)
+        this.setState({cost: cost })
+      }
     }
   }
 
-  incrementItem(evt) {
-    const id = evt.target.getAttribute('name');
-    const index = Number(evt.target.getAttribute('title'));
-    const inventory = Number(evt.target.value);
-    let quantity = this.props.cart[index].quantity;
-    if (inventory > quantity) {
-      quantity++;
-      this.props.increaseQuantity(quantity, id);
+  componentDidMount(){
+    if(this.props.cart){
+      let total = this.getTotal(this.props.cart)
+        this.setState({items: total })
+        let cost = this.getCost(this.props.cart)
+        this.setState({cost: cost })
     }
   }
-  decreaseItem(evt) {
-    const id = evt.target.getAttribute('name');
-    const index = Number(evt.target.getAttribute('title'));
-    let quantity = this.props.cart[index].quantity;
-    if (1 < quantity) {
-      quantity--;
-      this.props.decreaseQuantity(quantity, id);
-    }
-  }
+
   delete(evt) {
     const productId = evt.target.getAttribute('name');
     const userId = this.props.userId.id;
@@ -60,6 +68,7 @@ class Cart extends React.Component {
     const cartList = this.props.cart || [];
 
     return (
+
       <div id="cart-holder">
         <div id="cart-container">
           <div id="cart-left">
@@ -73,31 +82,18 @@ class Cart extends React.Component {
               return (
                 <div key={element.id} id="item-list">
                   <div>
-                    <img id="cart-list-image" src={element.product.imageUrl} />
+                    <Link to={`/products/${element.productId}`}><img id="cart-list-image" src={element.product.imageUrl} /></Link>
                   </div>
                   <div id="product-name">
-                    <p>{element.product.name}</p>
+                  <Link to={`/products/${element.productId}`}><p>{element.product.name}</p></Link>
                     Price: {element.product.cost + ' Rupees'}
-                    <button
-                      onClick={(evt) => {
-                        this.decreaseItem(evt);
-                      }}
-                      name={element.id}
-                      title={index}
-                    >
-                      -
-                    </button>
-                    Qty: {element.quantity}
-                    <button
-                      onClick={(evt) => {
-                        this.incrementItem(evt);
-                      }}
-                      name={element.id}
-                      title={index}
-                      value={element.product.inventory}
-                    >
-                      +
-                    </button>
+                    <QuantityChanger
+                      index={index}
+                      cartId={element.id}
+                      productId={element.product.id}
+                      quantity={element.quantity}
+                      inventory={element.product.inventory}
+                    />
                   </div>
                   <button
                     type="button"
@@ -115,11 +111,18 @@ class Cart extends React.Component {
           </div>
 
           <div id="cart-right">
-            <Link to={'/ordered'}>
+            {cartList.length === 0 ? (
               <div id="cart-right-button">
-                <p>Place Order</p>
+                <p>Cart is empty</p>
               </div>
-            </Link>
+            ) : (
+              <Link to={'/ordered'}>
+                <div id="cart-right-button">
+                  <p><ShoppingCart/> Place Order</p>
+                </div>
+              </Link>
+            )}
+
             <h2>Order Summary</h2>
             <div id="order-sum-holder">
               <div id="order-sum-holder-left">
@@ -134,16 +137,16 @@ class Cart extends React.Component {
               <div id="order-sum-holder-right">
                 <ul>
                   <li>{this.state.cost} Rupees</li>
-                  <li>{shipping} Rupees</li>
-                  <li>{this.state.cost + shipping}</li>
+                  <li>{shipping(this.state.items)} Rupees</li>
+                  <li>{this.state.cost + shipping(this.state.items)} Rupees</li>
                   <li>{Math.floor(this.state.cost * tax)} Rupees</li>
                 </ul>
               </div>
             </div>
             <h2>
-              Order Total:{' '}
-              {this.state.cost + shipping + Math.floor(this.state.cost * tax)}{' '}
-              Rupees
+              Order-Total:{' '}
+              {this.state.cost + shipping(this.state.items) + Math.floor(this.state.cost * tax)}{' '}
+              <small>Rupees</small>
             </h2>
           </div>
         </div>
@@ -154,23 +157,15 @@ class Cart extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.auth,
-    isLoggedIn: !!state.auth.id,
     cart: state.cartReducer,
+    userid: state.auth.id
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCart: (userId) => dispatch(fetchCart(userId)),
-    loadInitialData() {
-      dispatch(me());
-    },
     deleteProduct: (userId, productId) =>
       dispatch(deleteThunk(userId, productId)),
-    increaseQuantity: (quantity, rowId) =>
-      dispatch(increaseQuantityThunk(quantity, rowId)),
-    decreaseQuantity: (quantity, rowId) =>
-      dispatch(decreaseQuantityThunk(quantity, rowId)),
   };
 };
 
