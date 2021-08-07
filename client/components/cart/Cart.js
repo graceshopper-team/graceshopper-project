@@ -6,7 +6,7 @@ import QuantityChanger from './QuantityChanger';
 import ShoppingCart from '../icons/ShoppingCart';
 
 const shipping = (items) => {
-  return Math.floor(items * 1.5)
+  return Math.floor(items * 1.5);
 };
 const tax = 0.07;
 
@@ -18,46 +18,52 @@ class Cart extends React.Component {
       cost: 0,
     };
     this.delete = this.delete.bind(this);
-    this.getTotal = this.getTotal.bind(this)
+    this.getTotal = this.getTotal.bind(this);
   }
 
-  getTotal(arry){
-    let total = 0
+  //calculate total amount of items
+  getTotal(arry) {
+    let total = 0;
     arry.map((element) => {
-      total += element.quantity
-    })
-    return total
+      total += element.quantity;
+    });
+    return total;
   }
-  getCost(arry){
-    let cost = 0
+
+  //calculates the cost of all the items
+  getCost(arry) {
+    let cost = 0;
     arry.map((element) => {
-      cost += (element.quantity * element.product.cost)
-    })
-    return cost
+      cost += element.quantity * element.product.cost;
+    });
+    return cost;
   }
 
   componentDidUpdate(previousProps) {
-    if(previousProps.cart.length > 0){
-      if(this.state.items !== this.getTotal(previousProps.cart)){
-        let total = this.getTotal(previousProps.cart)
-        this.setState({items: total })
+    //these upodate the total cost for the cart
+    if (previousProps.cart.length > 0) {
+      if (this.state.items !== this.getTotal(previousProps.cart)) {
+        let total = this.getTotal(previousProps.cart);
+        this.setState({ items: total });
       }
-      if(this.state.cost !== this.getCost(previousProps.cart)){
-        let cost = this.getCost(previousProps.cart)
-        this.setState({cost: cost })
+      if (this.state.cost !== this.getCost(previousProps.cart)) {
+        let cost = this.getCost(previousProps.cart);
+        this.setState({ cost: cost });
       }
     }
   }
 
-  componentDidMount(){
-    if(this.props.cart){
-      let total = this.getTotal(this.props.cart)
-        this.setState({items: total })
-        let cost = this.getCost(this.props.cart)
-        this.setState({cost: cost })
+  //sets up the total cost for the cart when it loads
+  componentDidMount() {
+    if (this.props.cart) {
+      let total = this.getTotal(this.props.cart);
+      this.setState({ items: total });
+      let cost = this.getCost(this.props.cart);
+      this.setState({ cost: cost });
     }
   }
 
+  //deletes product for cart db of user
   delete(evt) {
     const productId = evt.target.getAttribute('name');
     const userId = this.props.userId.id;
@@ -68,7 +74,6 @@ class Cart extends React.Component {
     const cartList = this.props.cart || [];
 
     return (
-
       <div id="cart-holder">
         <div id="cart-container">
           <div id="cart-left">
@@ -82,10 +87,17 @@ class Cart extends React.Component {
               return (
                 <div key={element.id} id="item-list">
                   <div>
-                    <Link to={`/products/${element.productId}`}><img id="cart-list-image" src={element.product.imageUrl} /></Link>
+                    <Link to={`/products/${element.productId}`}>
+                      <img
+                        id="cart-list-image"
+                        src={element.product.imageUrl}
+                      />
+                    </Link>
                   </div>
                   <div id="product-name">
-                  <Link to={`/products/${element.productId}`}><p>{element.product.name}</p></Link>
+                    <Link to={`/products/${element.productId}`}>
+                      <p>{element.product.name}</p>
+                    </Link>
                     Price: {element.product.cost + ' Rupees'}
                     <QuantityChanger
                       index={index}
@@ -94,6 +106,8 @@ class Cart extends React.Component {
                       quantity={element.quantity}
                       inventory={element.product.inventory}
                     />
+                    <small>available: {element.product.inventory}</small>
+
                   </div>
                   <button
                     type="button"
@@ -118,7 +132,9 @@ class Cart extends React.Component {
             ) : (
               <Link to={'/ordered'}>
                 <div id="cart-right-button">
-                  <p><ShoppingCart/> Place Order</p>
+                  <p>
+                    <ShoppingCart /> Place Order
+                  </p>
                 </div>
               </Link>
             )}
@@ -145,7 +161,9 @@ class Cart extends React.Component {
             </div>
             <h2>
               Order-Total:{' '}
-              {this.state.cost + shipping(this.state.items) + Math.floor(this.state.cost * tax)}{' '}
+              {this.state.cost +
+                shipping(this.state.items) +
+                Math.floor(this.state.cost * tax)}{' '}
               <small>Rupees</small>
             </h2>
           </div>
@@ -158,7 +176,7 @@ class Cart extends React.Component {
 const mapStateToProps = (state) => {
   return {
     cart: state.cartReducer,
-    userid: state.auth.id
+    userid: state.auth.id,
   };
 };
 const mapDispatchToProps = (dispatch) => {

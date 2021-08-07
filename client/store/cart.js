@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const SET_CART = 'SET_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
-const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
-const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
+const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 const CLEAR_CART_STORE = "CLEAR_CART_STORE";
 
 //action creator
@@ -22,19 +21,13 @@ export const clearCartStore = () => {
   }
 }
 
-export const increaseQty = (row) => {
+export const changeQty = (row) => {
   let id = row.data.id;
+  let quantity = row.data.quantity
   return {
-    type: INCREASE_QUANTITY,
+    type: CHANGE_QUANTITY,
     id,
-  };
-};
-
-export const decreaseQty = (row) => {
-  let id = row.data.id;
-  return {
-    type: DECREASE_QUANTITY,
-    id,
+    quantity
   };
 };
 
@@ -57,28 +50,14 @@ export const deleteThunk = (userId, productId) => {
   };
 };
 
-export const increaseQuantityThunk = (quantity, rowId) => {
+export const changeQuantityThunk = (quantity, rowId) => {
   return async (dispatch) => {
     try {
       const product = await axios.put('/api/cart/:userId', {
         quantity: quantity,
         rowId: rowId,
       });
-      dispatch(increaseQty(product));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
-
-export const decreaseQuantityThunk = (quantity, rowId) => {
-  return async (dispatch) => {
-    try {
-      const product = await axios.put('/api/cart/:userId', {
-        quantity: quantity,
-        rowId: rowId,
-      });
-      dispatch(decreaseQty(product));
+      dispatch(changeQty(product));
     } catch (error) {
       console.error(error);
     }
@@ -101,22 +80,14 @@ export default function cartReducer(state = [], action) {
   switch (action.type) {
     case CLEAR_CART_STORE:
       return []
-    case INCREASE_QUANTITY:
+    case CHANGE_QUANTITY:
       let cartl = state;
       cartl = cartl.map((element) => {
         if (element.id === Number(action.id))
-          element.quantity = element.quantity + 1;
+          element.quantity = action.quantity;
         return element;
       });
       return cartl;
-    case DECREASE_QUANTITY:
-      let cartr = state;
-      cartr = cartr.map((element) => {
-        if (element.id === Number(action.id))
-          element.quantity = element.quantity - 1;
-        return element;
-      });
-      return cartr;
     case DELETE_ITEM:
       let cart = state;
       let toDelete = Number(action.productId);

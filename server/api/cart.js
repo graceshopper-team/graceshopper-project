@@ -43,6 +43,7 @@ router.put('/:userId/', async (req, res, next) => {
     let cartRow = await Cart.findByPk(rowId);
     cartRow.quantity = quantity;
     await cartRow.save();
+
     res.status(201).send(cartRow);
   } catch (error) {
     next(error);
