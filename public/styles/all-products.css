@@ -4,12 +4,14 @@
   padding-top: 90px;
   margin: auto;
   user-select: none;
+
 }
 #all-proucts-holder {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   max-width: 1080px;
+
 }
 
 .all-food-item {

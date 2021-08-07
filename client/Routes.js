@@ -6,7 +6,7 @@ import Home from './components/Home';
 import { me } from './store';
 import AllFood from './components/allFoods/AllFood';
 import SingleFood from './components/singleFood/SingleFood';
-import Cart from './components/Cart';
+import Cart from './components/cart/Cart';
 import OrderConfirmation from './components/OrderConfirmation';
 
 /**

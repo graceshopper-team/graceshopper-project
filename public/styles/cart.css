@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  user-select: none;
 }
 
 #cart-container {
@@ -31,8 +32,15 @@
   font-weight: 500;
   margin-top: 0px;
   margin-bottom: 5px;
+  color:black;
 }
-
+#product-name a{
+  text-decoration: none;
+  color:black;
+}
+#product-name a:hover{
+  text-decoration: underline;
+}
 #product-name button {
   margin: 0px 10px;
   background-color: #9f9f9f;
@@ -80,9 +88,12 @@
   align-items: center;
   justify-content: space-around;
 }
+#item-list:hover{
+  background-color: #f6f6f7;
+}
 
 #cart-right {
-  margin-top: 40px;
+  margin-top: 60px;
   width: 300px;
   background-color: white;
 }
