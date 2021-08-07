@@ -99,10 +99,20 @@ async function seed() {
   console.log(`seeded ${carts.length} carts`);
   console.log(`seeded successfully`);
 
-  // Associate a product and user to each cart
+  // Associate a product and user to each cart.
+  // stores added productId's to array so duplicate product carts are not added to same user-cart
+  let alreadyAddedProducts = [];
   for (let j = 0; j < carts.length; j++) {
-    // Create random product idx and random user idx
+    // Create random product idx
     let randomProductIdx = Math.floor(Math.random() * products.length);
+    //make sure it hasn't been used before
+    while (alreadyAddedProducts.includes(randomProductIdx)) {
+      randomProductIdx = Math.floor(Math.random() * products.length);
+    }
+    //when it is confirmed to not have been used before, it is added to alreadyAddedProducts
+    alreadyAddedProducts.push(randomProductIdx);
+
+    // Create random user idx
     let randomUserIdx = Math.floor(Math.random() * users.length);
     await carts[j].setProduct(products[randomProductIdx]);
     await carts[j].setUser(users[randomUserIdx]);
