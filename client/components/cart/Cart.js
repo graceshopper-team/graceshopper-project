@@ -66,7 +66,7 @@ class Cart extends React.Component {
   //deletes product for cart db of user
   delete(evt) {
     const productId = evt.target.getAttribute('name');
-    const userId = this.props.userId.id;
+    const userId = this.props.userid;
     this.props.deleteProduct(userId, productId);
   }
 
