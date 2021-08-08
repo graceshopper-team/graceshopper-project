@@ -5,17 +5,10 @@ const {
 module.exports = router;
 const { requireToken } = require('./gatekeepingMiddleware');
 
-//commented requireToken out because issues
-//router.get('/:userId', requireToken, async (req, res, next) => {
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', requireToken, async (req, res, next) => {
   try {
     const paramsNum = parseInt(req.params.userId, 10);
-
-    //commented auth out because issues
-    if (
-      //req.user.id === paramsNum
-      true
-    ) {
+    if (req.user.id === paramsNum) {
       const carts = await Cart.findAll({
         include: {
           model: Product,
@@ -36,15 +29,18 @@ router.get('/:userId', async (req, res, next) => {
 });
 
 //update quantity of product
-router.put('/:userId/', async (req, res, next) => {
-  const rowId = req.body.rowId;
-  const quantity = req.body.quantity;
+router.put('/:userId', requireToken, async (req, res, next) => {
   try {
-    let cartRow = await Cart.findByPk(rowId);
-    cartRow.quantity = quantity;
-    await cartRow.save();
+    const paramsNum = parseInt(req.params.userId, 10);
+    if (req.user.id === paramsNum) {
+      const rowId = req.body.rowId;
+      const quantity = req.body.quantity;
+      let cartRow = await Cart.findByPk(rowId);
+      cartRow.quantity = quantity;
+      await cartRow.save();
 
-    res.status(201).send(cartRow);
+      res.status(201).send(cartRow);
+    }
   } catch (error) {
     next(error);
   }

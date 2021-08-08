@@ -6,6 +6,8 @@ const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 const CLEAR_CART_STORE = 'CLEAR_CART_STORE';
 const ADD_TO_CART = 'ADD_TO_CART';
 
+const TOKEN = 'token';
+
 //action creator
 export const setCart = (cart) => {
   return {
@@ -20,6 +22,7 @@ export const addToCart = () => {
   };
 };
 
+// thunks
 export const addToCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
     try {
@@ -80,22 +83,37 @@ export const deleteThunk = (userId, productId) => {
 export const changeQuantityThunk = (quantity, rowId) => {
   return async (dispatch) => {
     try {
-      const product = await axios.put('/api/cart/:userId', {
-        quantity: quantity,
-        rowId: rowId,
-      });
-      dispatch(changeQty(product));
+      const token = window.localStorage.getItem(TOKEN);
+      console.log('token on front-end: ', token);
+      if (token) {
+        const product = await axios.put('/api/cart/:userId', {
+          quantity: quantity,
+          rowId: rowId,
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(changeQty(product));
+      }
     } catch (error) {
       console.error(error);
     }
   };
 };
 
+// NOTE: Tokens get grabbed to send to the express rotuers here for verification
 export const fetchCart = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/cart/${userId}`);
-      dispatch(setCart(data));
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const { data } = await axios.get(`/api/cart/${userId}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setCart(data));
+      }
     } catch (error) {
       console.log(error);
     }
