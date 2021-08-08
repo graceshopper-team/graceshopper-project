@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { Sequelize } = require('sequelize');
 const {
   models: { Product, Category },
 } = require('../db');
@@ -46,6 +47,25 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.get('/search', async (req, res, next) => {
+  const query = req.query.filter || ""
+  try{
+    const products = await Product.findAll({
+      where: {
+        name: {
+          [Sequelize.Op.like]: '%' + query + '%'
+        }
+      },
+      attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory', 'hearts'],
+    });
+    res.json(products)
+  }catch(error){
+    next(error);
+  }
+
+
+})
 
 router.get('/:productId', async (req, res, next) => {
   try {

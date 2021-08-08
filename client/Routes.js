@@ -8,6 +8,7 @@ import AllFood from './components/allFoods/AllFood';
 import SingleFood from './components/singleFood/SingleFood';
 import Cart from './components/cart/Cart';
 import OrderConfirmation from './components/OrderConfirmation';
+import ProductSearch from './components/productSearch/ProductSearch';
 
 /**
  * COMPONENT
@@ -29,7 +30,8 @@ class Routes extends Component {
             <Route path="/products/:productId" component={SingleFood} />
             <Route path="/cart" component={Cart} />
             <Route exact path="/ordered" component={OrderConfirmation} />
-            <Redirect to="/products" />
+            <Route path="/search/:query" component={ProductSearch}/>
+            <Redirect to="/products"/>
           </Switch>
         ) : (
           <Switch>
@@ -39,6 +41,7 @@ class Routes extends Component {
             <Route path="/cart" component={Cart} />
             <Route path="/signup" component={Signup} />
             <Route path="/products/:productId" component={SingleFood} />
+            <Route path="/search/:query" component={ProductSearch}/>
             <Route exact path="/ordered" component={OrderConfirmation} />
           </Switch>
         )}
