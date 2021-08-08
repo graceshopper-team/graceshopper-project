@@ -81,3 +81,52 @@ router.delete('/:userId/', async (req, res, next) => {
     next(error);
   }
 });
+
+//if (user has cart with item in it already) add to that Cart
+//else create a new cart using an object w the quantity as its only attribute
+//
+//then, add the requested item to the cart
+//then, assign that cart to the requested user
+
+router.post('/:userId', async (req, res, next) => {
+  try {
+    const productId = req.body.productId;
+    const quantity = req.body.quantity || 1;
+    const userId = req.params.userId;
+
+    let product = await Cart.findOne({
+      where: {
+        userId: userId,
+        productId: productId,
+      },
+    });
+
+    if (product) {
+      //this exist already in user cart
+      product.quantity = product.quantity + quantity;
+
+      await product.save();
+      res.sendStatus(201);
+    } else {
+      //this does not exist in user cart
+      const newCartObj = {
+        quantity: quantity,
+      };
+      //create new Cart from model w/ quantity specified
+      const newCart = await Cart.create(newCartObj);
+
+      //add association to specified user
+      const user = await User.findByPk(userId);
+      await newCart.setUser(user);
+
+      //add association to specified product
+      const product = await Product.findByPk(productId);
+      await newCart.setProduct(product);
+
+      //what should we return? what would JPFP do?
+      res.sendStatus(201);
+    }
+  } catch (error) {
+    next(error);
+  }
+});

@@ -4,6 +4,7 @@ const SET_CART = 'SET_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
 const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 const CLEAR_CART_STORE = 'CLEAR_CART_STORE';
+const ADD_TO_CART = 'ADD_TO_CART';
 
 //action creator
 export const setCart = (cart) => {
@@ -13,6 +14,22 @@ export const setCart = (cart) => {
   };
 };
 
+export const addToCart = () => {
+  return {
+    type: ADD_TO_CART,
+  };
+};
+
+export const addToCartThunk = (userId, productId, quantity) => {
+  return async (dispatch) => {
+    try {
+      await axios.post(`/api/cart/${userId}`, { productId, quantity });
+      dispatch(fetchCart(userId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 //this is for when a user logs out
 export const clearCartStore = () => {
   return {
