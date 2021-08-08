@@ -6,6 +6,8 @@ const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 const CLEAR_CART_STORE = 'CLEAR_CART_STORE';
 const ADD_TO_CART = 'ADD_TO_CART';
 
+const TOKEN = 'token';
+
 //action creator
 export const setCart = (cart) => {
   return {
@@ -20,16 +22,6 @@ export const addToCart = () => {
   };
 };
 
-export const addToCartThunk = (userId, productId, quantity) => {
-  return async (dispatch) => {
-    try {
-      await axios.post(`/api/cart/${userId}`, { productId, quantity });
-      dispatch(fetchCart(userId));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
 //this is for when a user logs out
 export const clearCartStore = () => {
   return {
@@ -55,11 +47,39 @@ export const deleteCartItem = (userId, productId) => {
   };
 };
 
+// thunks
+export const addToCartThunk = (userId, productId, quantity) => {
+  return async (dispatch) => {
+    try {
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        await axios.post(`/api/cart/${userId}`, {
+          productId,
+          quantity,
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(fetchCart(userId));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const deleteCartThunk = (userId) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`/api/cart/${userId}`);
-      dispatch(clearCartStore());
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        await axios.delete(`/api/cart/${userId}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(clearCartStore());
+      }
     } catch (error) {
       console.log(error);
     }
@@ -69,33 +89,54 @@ export const deleteCartThunk = (userId) => {
 export const deleteThunk = (userId, productId) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`/api/cart/${userId}/${productId}`);
-      dispatch(deleteCartItem(userId, productId));
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        await axios.delete(`/api/cart/${userId}/${productId}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(deleteCartItem(userId, productId));
+      }
     } catch (error) {
       console.log(error);
     }
   };
 };
 
-export const changeQuantityThunk = (quantity, rowId) => {
+export const changeQuantityThunk = (quantity, rowId, userId) => {
   return async (dispatch) => {
     try {
-      const product = await axios.put('/api/cart/:userId', {
-        quantity: quantity,
-        rowId: rowId,
-      });
-      dispatch(changeQty(product));
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const product = await axios.put(`/api/cart/${userId}`, {
+          quantity: quantity,
+          rowId: rowId,
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(changeQty(product));
+      }
     } catch (error) {
       console.error(error);
     }
   };
 };
 
+// NOTE: Tokens get grabbed to send to the express rotuers here for verification
 export const fetchCart = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/cart/${userId}`);
-      dispatch(setCart(data));
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const { data } = await axios.get(`/api/cart/${userId}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setCart(data));
+      }
     } catch (error) {
       console.log(error);
     }
