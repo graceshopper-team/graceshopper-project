@@ -45,7 +45,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
               </li>
               <Link to="/cart">
                 <li>
-                  Cart <ShoppingCart />{' '}
+                  <ShoppingCart />
                 </li>
               </Link>
             </ul>
@@ -66,7 +66,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
               </li>
               <li>
                 <Link to="/cart">
-                  Cart <ShoppingCart />
+                  <ShoppingCart />
                 </Link>
               </li>
             </ul>
