@@ -31,7 +31,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
         <div id="nav-right">
           {isLoggedIn ? (
             <ul>
-              {/* The navbar will show these links after you log in */}\{' '}
+              {/* The navbar will show these links after you log in */}{' '}
               <li>
                 <label><Search /></label> <input type="text"  onKeyDown={handleKeyDown} placeholder="Search.." />
               </li>

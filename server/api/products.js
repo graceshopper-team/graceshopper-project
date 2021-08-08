@@ -49,13 +49,11 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/search', async (req, res, next) => {
-  const query = req.query.filter || ""
+  const query = req.query.filter.toLowerCase() || ""
   try{
     const products = await Product.findAll({
       where: {
-        name: {
-          [Sequelize.Op.like]: '%' + query + '%'
-        }
+        name: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('name')), 'LIKE', '%' + query + '%')
       },
       attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory', 'hearts'],
     });
