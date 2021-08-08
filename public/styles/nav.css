@@ -80,3 +80,10 @@ li a {
   color: white;
   text-decoration: none;
 }
+
+li svg {
+  margin-top: 2px;
+}
+li svg:hover {
+  color: #F9914C
+}
