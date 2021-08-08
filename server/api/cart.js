@@ -7,15 +7,11 @@ const { requireToken } = require('./gatekeepingMiddleware');
 
 //commented requireToken out because issues
 //router.get('/:userId', requireToken, async (req, res, next) => {
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', requireToken, async (req, res, next) => {
   try {
     const paramsNum = parseInt(req.params.userId, 10);
 
-    //commented auth out because issues
-    if (
-      //req.user.id === paramsNum
-      true
-    ) {
+    if (req.user.id === paramsNum) {
       const carts = await Cart.findAll({
         include: {
           model: Product,

@@ -1,5 +1,6 @@
-const User = require('../db/models/User');
-
+const {
+  models: { User },
+} = require('../db');
 
 const requireToken = async (req, res, next) => {
   try {

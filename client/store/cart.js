@@ -5,6 +5,8 @@ const DELETE_ITEM = 'DELETE_ITEM';
 const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 const CLEAR_CART_STORE = 'CLEAR_CART_STORE';
 
+const TOKEN = 'token';
+
 //action creator
 export const setCart = (cart) => {
   return {
@@ -77,8 +79,15 @@ export const changeQuantityThunk = (quantity, rowId) => {
 export const fetchCart = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/cart/${userId}`);
-      dispatch(setCart(data));
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const { data } = await axios.get(`/api/cart/${userId}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setCart(data));
+      }
     } catch (error) {
       console.log(error);
     }
