@@ -9,9 +9,9 @@ class QuantityChanger extends React.Component {
     this.decreaseItem = this.decreaseItem.bind(this);
     this.incrementItem = this.incrementItem.bind(this);
   }
-  componentDidMount(){
+  componentDidMount() {
     //makes sure the quantity wanted is not higher than inventory
-    if(this.props.quantity > this.props.inventory) {
+    if (this.props.quantity > this.props.inventory) {
       this.props.changeQuantity(this.props.quantity, this.props.cartId);
     }
   }
@@ -19,21 +19,21 @@ class QuantityChanger extends React.Component {
   //changes amount in cart down
   decreaseItem(evt) {
     let quantity = this.props.quantity;
-    let id = this.props.cartId;
+    let cartId = this.props.cartId;
     if (quantity > 1) {
       quantity--;
-      this.props.changeQuantity(quantity, id);
+      this.props.changeQuantity(quantity, cartId, this.props.userId);
     }
   }
 
   //changes amount in cart up
   incrementItem(evt) {
     let quantity = this.props.quantity;
-    let id = this.props.cartId;
+    let cartId = this.props.cartId;
     let inventory = this.props.inventory;
     if (inventory > quantity) {
       quantity++;
-      this.props.changeQuantity(quantity, id);
+      this.props.changeQuantity(quantity, cartId, this.props.userId);
     }
   }
 
@@ -60,11 +60,17 @@ class QuantityChanger extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    changeQuantity: (quantity, rowId) =>
-      dispatch(changeQuantityThunk(quantity, rowId)),
-  }
+    userId: state.auth.id,
+  };
 };
 
-export default connect(null, mapDispatchToProps)(QuantityChanger);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeQuantity: (quantity, rowId, userId) =>
+      dispatch(changeQuantityThunk(quantity, rowId, userId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuantityChanger);

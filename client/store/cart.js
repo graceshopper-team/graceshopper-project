@@ -22,17 +22,6 @@ export const addToCart = () => {
   };
 };
 
-// thunks
-export const addToCartThunk = (userId, productId, quantity) => {
-  return async (dispatch) => {
-    try {
-      await axios.post(`/api/cart/${userId}`, { productId, quantity });
-      dispatch(fetchCart(userId));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
 //this is for when a user logs out
 export const clearCartStore = () => {
   return {
@@ -58,11 +47,39 @@ export const deleteCartItem = (userId, productId) => {
   };
 };
 
+// thunks
+export const addToCartThunk = (userId, productId, quantity) => {
+  return async (dispatch) => {
+    try {
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        await axios.post(`/api/cart/${userId}`, {
+          productId,
+          quantity,
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(fetchCart(userId));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const deleteCartThunk = (userId) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`/api/cart/${userId}`);
-      dispatch(clearCartStore());
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        await axios.delete(`/api/cart/${userId}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(clearCartStore());
+      }
     } catch (error) {
       console.log(error);
     }
@@ -72,21 +89,27 @@ export const deleteCartThunk = (userId) => {
 export const deleteThunk = (userId, productId) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`/api/cart/${userId}/${productId}`);
-      dispatch(deleteCartItem(userId, productId));
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        await axios.delete(`/api/cart/${userId}/${productId}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(deleteCartItem(userId, productId));
+      }
     } catch (error) {
       console.log(error);
     }
   };
 };
 
-export const changeQuantityThunk = (quantity, rowId) => {
+export const changeQuantityThunk = (quantity, rowId, userId) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
-      console.log('token on front-end: ', token);
       if (token) {
-        const product = await axios.put('/api/cart/:userId', {
+        const product = await axios.put(`/api/cart/${userId}`, {
           quantity: quantity,
           rowId: rowId,
           headers: {
