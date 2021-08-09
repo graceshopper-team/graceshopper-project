@@ -9,6 +9,8 @@ const Category = require('./models/Category');
 
 //associations could go here!
 
+// JOE CR: Let's start with how we are thinking about the Cart model.
+
 // User to Cart is 1-->Many
 User.hasMany(Cart);
 Cart.belongsTo(User);

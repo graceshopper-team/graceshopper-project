@@ -9,10 +9,12 @@ class ProductSearch extends React.Component {
   }
 
   componentDidMount() {
+    // Joe CR: Interesting!
     let location = this.props.match.params.query;
     this.props.searchProducts(location);
   }
   componentDidUpdate(previousProps) {
+    // Joe CR: Curious, does your component re-mount when search is used again, or does it stay and this method gets called?
     if (previousProps.match.params.query !== this.props.match.params.query) {
       let location = this.props.match.params.query;
       this.props.searchProducts(location);

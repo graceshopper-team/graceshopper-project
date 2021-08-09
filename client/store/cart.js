@@ -51,6 +51,7 @@ export const deleteCartItem = (userId, productId) => {
 export const addToCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
     try {
+      // Joe CR: Can we think of a way to repeat doing this fewer times?
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
         await axios.post(`/api/cart/${userId}`, {

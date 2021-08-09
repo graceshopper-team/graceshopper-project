@@ -19,6 +19,8 @@ class Cart extends React.Component {
       cost: 0,
     };
     this.delete = this.delete.bind(this);
+
+    // Joe CR: Is this necessary? Why/why not?
     this.getTotal = this.getTotal.bind(this);
     this.checkout = this.checkout.bind(this);
   }
@@ -58,6 +60,7 @@ class Cart extends React.Component {
   //sets up the total cost for the cart when it loads
   componentDidMount() {
     if (this.props.cart) {
+      // Joe CR: I'm not sure state is needed here. Let's discuss.
       let total = this.getTotal(this.props.cart);
       this.setState({ items: total });
       let cost = this.getCost(this.props.cart);
