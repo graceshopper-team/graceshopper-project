@@ -26,7 +26,7 @@ const AllFoodItem = (props) => {
       
       //if cart exists in local storage, add to it
       if(window.localStorage.getItem('CART')){
-        console.log('it exists');
+        console.log('local cart exists, adding to it (in AllFoodItem)');
         let existingLocalCart = JSON.parse(window.localStorage.getItem('CART'));
         console.log('parsed existing cart:', existingLocalCart);
         
@@ -49,7 +49,8 @@ const AllFoodItem = (props) => {
         window.localStorage.setItem('CART', stringCart);
         
       } else {
-        console.log("it doesn't exist");
+        console.log("no local cart, creating one (in AllFoodItem)");
+        
         let stringCart = JSON.stringify([newCartItem]);
         window.localStorage.setItem('CART', stringCart);
       }
