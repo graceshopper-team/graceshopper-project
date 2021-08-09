@@ -19,7 +19,6 @@ class Cart extends React.Component {
       cost: 0,
     };
     this.delete = this.delete.bind(this);
-    this.getTotal = this.getTotal.bind(this);
     this.checkout = this.checkout.bind(this);
   }
 
@@ -82,8 +81,9 @@ class Cart extends React.Component {
   }
 
   render() {
-    const cartList = this.props.cart || [];
-
+    //where we left off
+    const cartList = this.props.cart || JSON.parse(window.localStorage.getItem('CART')) || [];
+    
     return (
       <div id="cart-holder">
         <div id="cart-container">
