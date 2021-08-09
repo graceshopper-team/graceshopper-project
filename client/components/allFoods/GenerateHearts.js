@@ -2,6 +2,7 @@ import React from 'react';
 import Heart from '../icons/Heart';
 import HalfHeart from '../icons/HalfHeart';
 
+// Joe CR: Cool stuff!
 const GenerateHearts = (props) => {
   if(!props.hearts) return(<span></span>)
   const wholeHearts = new Array(Math.floor(props.hearts)).fill('heart');

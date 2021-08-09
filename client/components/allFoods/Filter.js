@@ -34,6 +34,7 @@ class Filter extends React.Component {
             this.click(evt);
           }}
         >
+          {/* Joe CR: I think using a class might be more elegant than switching element name. */}
           {this.props.filter === 'none' ? (
             <h2 name="none">All</h2>
           ) : (

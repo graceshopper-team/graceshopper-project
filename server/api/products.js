@@ -53,6 +53,7 @@ router.get('/search', async (req, res, next) => {
   try{
     const products = await Product.findAll({
       where: {
+        // Joe CR: Cool stuff!
         name: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('name')), 'LIKE', '%' + query + '%')
       },
       attributes: ['id', 'name', 'cost', 'imageUrl', 'inventory', 'hearts'],

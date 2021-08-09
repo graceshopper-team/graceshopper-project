@@ -8,7 +8,7 @@ const { requireToken } = require('./gatekeepingMiddleware');
 router.get('/:userId', requireToken, async (req, res, next) => {
   try {
     const paramsNum = parseInt(req.params.userId, 10);
-    if (req.user.id === paramsNum) {
+    if (req.user.id === paramsNum) { // Joe CR: I think I was getting an error on this line.
       const carts = await Cart.findAll({
         include: {
           model: Product,
@@ -53,6 +53,7 @@ router.delete('/:userId/:productId', requireToken, async (req, res, next) => {
     if (req.user.id === paramsNum) {
       const userId = req.params.userId;
       const productId = req.params.productId;
+      // Joe CR: Why does update (PUT route) use "rowId" (pk of Cart row), but this uses product+user?
       await Cart.destroy({
         where: {
           userId: userId,
@@ -120,12 +121,16 @@ router.post('/:userId', requireToken, async (req, res, next) => {
         const newCart = await Cart.create(newCartObj);
 
         //add association to specified user
+        // Joe CR: I believe you already have this as req.user.
         const user = await User.findByPk(userId);
         await newCart.setUser(user);
 
         //add association to specified product
         const product = await Product.findByPk(productId);
+        // Joe CR: Each of these associative methods is a query to your database. 
+        // It may be more performant to NOT use the association methods in this case.
         await newCart.setProduct(product);
+
 
         //what should we return? what would JPFP do?
         res.sendStatus(201);
