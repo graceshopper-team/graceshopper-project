@@ -11,6 +11,7 @@ const AllFoodItem = (props) => {
   const history = useHistory();
   function click(evt) {
     evt.preventDefault();
+    // Joe CR: We should consider managing success/error here. How?
     props.addToCartThunk(props.userid, props.id, 1);
     history.push('/cart');
   }
