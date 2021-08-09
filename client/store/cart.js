@@ -52,6 +52,7 @@ export const addToCartThunk = (userId, productId, quantity) => {
   return async (dispatch) => {
     try {
       const token = window.localStorage.getItem(TOKEN);
+
       if (token) {
         await axios.post(`/api/cart/${userId}`, {
           productId,
