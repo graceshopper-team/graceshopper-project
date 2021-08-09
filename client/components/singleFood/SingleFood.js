@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GenerateHearts from '../allFoods/GenerateHearts.js';
+import { PageNotFound } from '../../Routes.js';
 
 // imports below to be used in the mapDispatchToProps,
 // then the func name assigned to store functions there to be used where needed.
 //  (example in commented-out componentDidMount func)
 //
-import { fetchSingleProduct } from '../../store/singleProduct.js';
+import { fetchSingleProduct, clearProduct } from '../../store/singleProduct.js';
 
 //TODO:
 //1) import ... from store/singleProduct and map to props
@@ -21,6 +22,7 @@ class SingleFood extends React.Component {
     super(props);
     this.state = {
       count: 1,
+      isValid: false,
     };
 
     // thinking assigning inventory to state might be a good way to get the inventory
@@ -37,7 +39,20 @@ class SingleFood extends React.Component {
   // TODO: get Product based on ID in the URL
   componentDidMount() {
     const { productId } = this.props.match.params;
+
     this.props.getSingleProduct(productId);
+  }
+
+  componentDidUpdate(previousProps) {
+    if (this.props.product !== previousProps.product) {
+      if (this.props.product !== 'invalid') {
+        this.setState({ isValid: true });
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.clear();
   }
 
   // maybe add componentWillUnmount to clear props after unmounting?
@@ -99,59 +114,70 @@ class SingleFood extends React.Component {
 
     return (
       <div id={id} className="single-product-container">
-        <h1 id="single-product-title">
-          <strong>{name}</strong>
-        </h1>
-        <div id="single-product-box">
-          <div id="left-column">
-            <img src={imageUrl} />
-          </div>
-          <div id="right-column">
-            <h1>
-              <b>
-                {cost} Rupees <GenerateHearts hearts={hearts} />
-              </b>
+        {this.state.isValid === true ? (
+          <span>
+            {' '}
+            <h1 id="single-product-title">
+              <strong>{name}</strong>
             </h1>
-            <p>{description}</p>
-            <span>
-              <h2>Category: {type}</h2>
-            </span>
+            <div id="single-product-box">
+              <div id="left-column">
+                <img src={imageUrl} />
+              </div>
+              <div id="right-column">
+                <h1>
+                  <b>
+                    {cost} Rupees <GenerateHearts hearts={hearts} />
+                  </b>
+                </h1>
+                <p>{description}</p>
+                <span>
+                  <h2>Category: {type}</h2>
+                </span>
 
-            <h4>
-              <button
-                id="counter"
-                name="down"
-                onClick={(event) => {
-                  this.handleChange(event);
-                }}
-              >
-                -
-              </button>{' '}
-              {this.state.count}{' '}
-              <button
-                id="counter"
-                name="up"
-                onClick={(event) => {
-                  this.handleChange(event);
-                }}
-              >
-                +
-              </button>
-            </h4>
+                <h4>
+                  <button
+                    id="counter"
+                    name="down"
+                    onClick={(event) => {
+                      this.handleChange(event);
+                    }}
+                  >
+                    -
+                  </button>{' '}
+                  {this.state.count}{' '}
+                  <button
+                    id="counter"
+                    name="up"
+                    onClick={(event) => {
+                      this.handleChange(event);
+                    }}
+                  >
+                    +
+                  </button>
+                </h4>
 
-            <p>
-              <small>quantity available: {inventory}</small>
-            </p>
-            <div>
-              <button
-                type="addToCart"
-                onClick={(event) => this.handleSubmit(event)}
-              >
-                add to cart
-              </button>
+                <p>
+                  <small>quantity available: {inventory}</small>
+                </p>
+                <div>
+                  <button
+                    type="addToCart"
+                    onClick={(event) => this.handleSubmit(event)}
+                  >
+                    add to cart
+                  </button>
+                </div>
+              </div>
             </div>
+          </span>
+        ) : this.props.product === 'invalid' ? (
+          <PageNotFound />
+        ) : (
+          <div id="product-loading">
+            <h1>loading</h1>
           </div>
-        </div>
+        )}
       </div>
     );
   }
@@ -163,6 +189,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getSingleProduct: (productId) => dispatch(fetchSingleProduct(productId)),
+  clear: () => dispatch(clearProduct()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleFood);

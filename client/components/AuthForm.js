@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
+  // const history = useHistory();
 
   console.log(props.name);
   return (
@@ -24,23 +26,41 @@ const AuthForm = (props) => {
               <small>Username</small>
             </label>
             <br></br>
-            <input className="input-field" name="username" type="text" required />
+            <input
+              className="input-field"
+              name="username"
+              type="text"
+              required
+            />
           </div>
           <div>
             <label htmlFor="password">
               <small>Password</small>
             </label>
             <br></br>
-            <input className="input-field" name="password" type="password" required/>
+            <input
+              className="input-field"
+              name="password"
+              type="password"
+              required
+            />
           </div>
           <div>
             <button type="submit">{displayName}</button>
           </div>
 
-          {error && error.response && <div id="login-error"> {error.response.data} </div>}
+          {error && error.response && (
+            <div id="login-error"> {error.response.data} </div>
+          )}
         </form>
       </div>
-      {props.name === 'login' ? ( <Link to={'/signup'}><span>Don't Have An Account?  Click Here to Register</span></Link>) : (<span></span>)}
+      {props.name === 'login' ? (
+        <Link to={'/signup'}>
+          <span>Don't Have An Account? Click Here to Register</span>
+        </Link>
+      ) : (
+        <span></span>
+      )}
     </div>
   );
 };
@@ -68,7 +88,7 @@ const mapSignup = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, { history }) => {
   return {
     handleSubmit(evt) {
       evt.preventDefault();
@@ -76,6 +96,7 @@ const mapDispatch = (dispatch) => {
       const username = evt.target.username.value;
       const password = evt.target.password.value;
       dispatch(authenticate(username, password, formName));
+      history.push('/products');
     },
   };
 };

@@ -115,19 +115,12 @@ router.post('/:userId', requireToken, async (req, res, next) => {
         //this does not exist in user cart
         const newCartObj = {
           quantity: quantity,
+          userId: userId,
+          productId: productId,
         };
         //create new Cart from model w/ quantity specified
-        const newCart = await Cart.create(newCartObj);
+        await Cart.create(newCartObj);
 
-        //add association to specified user
-        const user = await User.findByPk(userId);
-        await newCart.setUser(user);
-
-        //add association to specified product
-        const product = await Product.findByPk(productId);
-        await newCart.setProduct(product);
-
-        //what should we return? what would JPFP do?
         res.sendStatus(201);
       }
     }
