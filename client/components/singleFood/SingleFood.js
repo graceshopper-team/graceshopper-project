@@ -99,7 +99,8 @@ class SingleFood extends React.Component {
   // dont know if best way, maybe pass product in state & quantity as 2nd param
   handleSubmit(evt) {
     evt.preventDefault();
-
+    
+    //pretty pop-up toast window notification
     toast.dark(
       `Added ${this.state.count} ${this.props.product.name} To Your Cart`,
       {
@@ -112,11 +113,56 @@ class SingleFood extends React.Component {
         progress: undefined,
       }
     );
-    this.props.addToCartThunk(
-      this.props.userId,
-      this.props.product.id,
-      this.state.count
-    );
+    
+    //if user signed in, business as normal
+    if(this.props.userId){
+      this.props.addToCartThunk(
+        this.props.userId,
+        this.props.product.id,
+        this.state.count
+      );
+      
+    } else { //else, local cart solution:
+    
+      //create a object containing the product info for local storage use
+      //TODO: add check to limit adding products to local-cart beyond inventory limits
+      const newCartItem = {
+        quantity: this.state.count,
+        productId: this.props.product.id,
+      };
+      
+      //if cart exists in local storage, add to it
+      if(window.localStorage.getItem('CART')){
+        console.log('local cart exists, adding to it (in SingleFood)');
+        let existingLocalCart = JSON.parse(window.localStorage.getItem('CART'));
+        console.log('parsed existing cart:', existingLocalCart);
+        
+        //loop through existing cart to see if item being added exists in cart already
+        let itemExists = false;
+        existingLocalCart.forEach((product, index) => {
+          
+          //if it does, then increment the quantity of it appropriately 
+          if(product.productId == newCartItem.productId){
+            existingLocalCart[index].quantity += newCartItem.quantity; 
+            itemExists = true;
+          }
+        });
+        
+        //if it doesnt exist already, then push the new item object to existing local cart
+        if(!itemExists) existingLocalCart.push(newCartItem);
+        
+        //2 back 2 string
+        let stringCart = JSON.stringify(existingLocalCart);
+        window.localStorage.setItem('CART', stringCart);
+        
+      } else {
+        console.log("no local cart, creating one (in SingleFood)");
+        
+        let stringCart = JSON.stringify([newCartItem]);
+        window.localStorage.setItem('CART', stringCart);
+      }
+      
+    }
   }
 
   render() {
@@ -189,7 +235,7 @@ class SingleFood extends React.Component {
                 </h4>
 
                 <p>quantity available: {inventory}</p>
-                <p>total in cart: {this.state.totalInCart}</p>
+                {(this.props.userId) && <p>total in cart: {this.state.totalInCart}</p>}
 
                 <div>
                   {this.state.count === 0 ? (

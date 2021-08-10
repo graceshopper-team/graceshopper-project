@@ -5,8 +5,6 @@ const DELETE_ITEM = 'DELETE_ITEM';
 const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 const CLEAR_CART_STORE = 'CLEAR_CART_STORE';
 const ADD_TO_CART = 'ADD_TO_CART';
-const ADD_CART_FOR_NEW_USER = 'ADD_CART_FOR_NEW_USER';
-const UPDATE_CART_FOR_NEW_USER = 'UPDATE_CART_FOR_NEW_USER';
 
 const TOKEN = 'token';
 
@@ -46,18 +44,6 @@ export const deleteCartItem = (userId, productId) => {
     type: DELETE_ITEM,
     userId,
     productId,
-  };
-};
-
-// export const addAnonCartToDB = () => {
-//   return {
-//     type: ADD_CART_FOR_NEW_USER,
-//   };
-// };
-
-export const updateAnonCartToDB = () => {
-  return {
-    type: UPDATE_CART_FOR_NEW_USER,
   };
 };
 
@@ -166,25 +152,27 @@ export const addNewUserCartThunk = (userId) => {
       if (token) {
         //get local cart
         const localCart = JSON.parse(window.localStorage.getItem('CART'));
-
-        // remove cart from local storage
-        window.localStorage.removeItem('CART');
-
-        //add header attribute to each cart object w/ token as the value
-        const formattedLocalCart = localCart.map((cartItem) => {
-          return {
-            productId: cartItem.productId,
-            quantity: cartItem.quantity,
-            headers: {
-              authorization: token,
-            },
-          };
-        });
-
-        //batch create new Cart items
-        formattedLocalCart.forEach(async (cartItem) => {
-          await axios.post(`/api/cart/${userId}`, cartItem);
-        });
+        
+        if(localCart != null){
+          // remove cart from local storage
+          window.localStorage.removeItem('CART');
+  
+          //add header attribute to each cart object w/ token as the value
+          const formattedLocalCart = localCart.map((cartItem) => {
+            return {
+              productId: cartItem.productId,
+              quantity: cartItem.quantity,
+              headers: {
+                authorization: token,
+              },
+            };
+          });
+  
+          //batch create new Cart items
+          formattedLocalCart.forEach(async (cartItem) => {
+            await axios.post(`/api/cart/${userId}`, cartItem);
+          });
+        }
 
         dispatch(fetchCart(userId));
       }
