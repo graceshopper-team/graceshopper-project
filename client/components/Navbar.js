@@ -11,13 +11,11 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
   let history = useHistory();
 
   const handleKeyDown = (event) => {
-
-
-    if(event.key === 'Enter'){
-      let searchKey = event.target.value
+    if (event.key === 'Enter') {
+      let searchKey = event.target.value;
       history.push(`/search/${searchKey}`);
     }
-  }
+  };
 
   return (
     <div id="navbar">
@@ -33,7 +31,14 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
             <ul>
               {/* The navbar will show these links after you log in */}{' '}
               <li>
-                <label><Search /></label> <input type="text"  onKeyDown={handleKeyDown} placeholder="Search.." />
+                <label>
+                  <Search />
+                </label>{' '}
+                <input
+                  type="text"
+                  onKeyDown={handleKeyDown}
+                  placeholder="Search.."
+                />
               </li>
               <li>
                 <Link to="/">Home</Link>
@@ -53,7 +58,14 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
             <ul>
               {/* The navbar will show these links before you log in */}
               <li>
-              <label><Search /></label> <input type="text"onKeyDown={handleKeyDown} placeholder="Search.." />
+                <label>
+                  <Search />
+                </label>{' '}
+                <input
+                  type="text"
+                  onKeyDown={handleKeyDown}
+                  placeholder="Search.."
+                />
               </li>
               <li>
                 <Link to="/">Home</Link>
@@ -74,9 +86,8 @@ const Navbar = ({ handleClick, isLoggedIn }) => {
         </div>
       </nav>
     </div>
-    );
-}
-
+  );
+};
 
 /**
  * CONTAINER
