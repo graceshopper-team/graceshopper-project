@@ -12,3 +12,13 @@ body {
 #routeHolder {
   margin: auto;
 }
+
+#pageNotFound {
+  margin-top: 170px;
+  text-align: center;
+}
+
+#pageNotFound img {
+  width: 400px;
+  height: 220px;
+}

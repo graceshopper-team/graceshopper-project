@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GenerateHearts from '../allFoods/GenerateHearts.js';
-
-import { fetchSingleProduct } from '../../store/singleProduct.js';
+import { PageNotFound } from '../../Routes.js';
+import { fetchSingleProduct, clearProduct } from '../../store/singleProduct.js';
 import { addToCartThunk, fetchCart } from '../../store/cart';
 
 class SingleFood extends React.Component {
@@ -10,6 +10,7 @@ class SingleFood extends React.Component {
     super(props);
     this.state = {
       count: 1,
+      isValid: false,
       rowId: null,
       totalInCart: 0,
     };
@@ -40,6 +41,7 @@ class SingleFood extends React.Component {
   // get Product based on ID in the URL
   componentDidMount() {
     const { productId } = this.props.match.params;
+
     this.props.getSingleProduct(productId);
 
     //this is needed if u go back to this component, as these props will already be defined
@@ -47,6 +49,10 @@ class SingleFood extends React.Component {
       this.props.fetchCart(this.props.userId);
       this.checkQtyInCart();
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clear();
   }
 
   componentDidUpdate(previousProps) {
@@ -57,6 +63,12 @@ class SingleFood extends React.Component {
     //checks if the cart is loaded on props
     if (previousProps.cart !== this.props.cart) {
       this.checkQtyInCart();
+    }
+
+    if (this.props.product !== previousProps.product) {
+      if (this.props.product !== 'invalid') {
+        this.setState({ isValid: true });
+      }
     }
   }
 
@@ -119,69 +131,80 @@ class SingleFood extends React.Component {
 
     return (
       <div id={id} className="single-product-container">
-        <h1 id="single-product-title">
-          <strong>{name}</strong>
-        </h1>
-        <div id="single-product-box">
-          <div id="left-column">
-            <img src={imageUrl} />
-          </div>
-          <div id="right-column">
-            <h1>
-              <b>
-                {cost} Rupees <GenerateHearts hearts={hearts} />
-              </b>
+        {this.state.isValid === true ? (
+          <span>
+            {' '}
+            <h1 id="single-product-title">
+              <strong>{name}</strong>
             </h1>
-            <p>{description}</p>
-            <span>
-              <h2>Category: {type}</h2>
-            </span>
+            <div id="single-product-box">
+              <div id="left-column">
+                <img src={imageUrl} />
+              </div>
+              <div id="right-column">
+                <h1>
+                  <b>
+                    {cost} Rupees <GenerateHearts hearts={hearts} />
+                  </b>
+                </h1>
+                <p>{description}</p>
+                <span>
+                  <h2>Category: {type}</h2>
+                </span>
 
-            <h4>
-              <button
-                id="counter"
-                name="down"
-                onClick={(event) => {
-                  this.handleChange(event);
-                }}
-              >
-                -
-              </button>{' '}
-              {this.state.count}{' '}
-              <button
-                id="counter"
-                name="up"
-                onClick={(event) => {
-                  this.handleChange(event);
-                }}
-              >
-                +
-              </button>
-            </h4>
+                <h4>
+                  <button
+                    id="counter"
+                    name="down"
+                    onClick={(event) => {
+                      this.handleChange(event);
+                    }}
+                  >
+                    -
+                  </button>{' '}
+                  {this.state.count}{' '}
+                  <button
+                    id="counter"
+                    name="up"
+                    onClick={(event) => {
+                      this.handleChange(event);
+                    }}
+                  >
+                    +
+                  </button>
+                </h4>
 
-            <p>quantity available: {inventory}</p>
-            <p>total in cart: {this.state.totalInCart}</p>
+                <p>quantity available: {inventory}</p>
+                <p>total in cart: {this.state.totalInCart}</p>
 
-            <div>
-              {this.state.count === 0 ? (
-                <button
-                  type="addToCart"
-                  disabled
-                  onClick={(event) => this.handleSubmit(event)}
-                >
-                  add to cart
-                </button>
-              ) : (
-                <button
-                  type="addToCart"
-                  onClick={(event) => this.handleSubmit(event)}
-                >
-                  add to cart
-                </button>
-              )}
+                <div>
+                  {this.state.count === 0 ? (
+                    <button
+                      type="addToCart"
+                      disabled
+                      onClick={(event) => this.handleSubmit(event)}
+                    >
+                      add to cart
+                    </button>
+                  ) : (
+                    <button
+                      type="addToCart"
+                      onClick={(event) => this.handleSubmit(event)}
+                    >
+                      add to cart
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
+          </span>
+        ) : this.props.product === 'invalid' ? (
+          <PageNotFound />
+        ) : (
+          <div id="product-loading">
+            <h1>loading</h1>
           </div>
-        </div>
+        )}
       </div>
     );
   }
@@ -195,6 +218,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getSingleProduct: (productId) => dispatch(fetchSingleProduct(productId)),
+  clear: () => dispatch(clearProduct()),
   addToCartThunk: (userId, productId, quantity) =>
     dispatch(addToCartThunk(userId, productId, quantity)),
   fetchCart: (userId) => dispatch(fetchCart(userId)),
