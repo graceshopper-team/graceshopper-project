@@ -6,6 +6,8 @@ import { fetchCart, deleteThunk, deleteCartThunk } from '../../store/cart';
 import QuantityChanger from './QuantityChanger';
 import ShoppingCart from '../icons/ShoppingCart';
 import AnonCart from './AnonCart';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+//import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const shipping = (items) => {
   return Math.floor(items * 1.5);
@@ -44,7 +46,7 @@ class Cart extends React.Component {
 
   componentDidUpdate(previousProps) {
     //these upodate the total cost for the cart
-    if (previousProps.cart.length > 0) {
+    if (previousProps.cart.length !== this.props.length) {
       if (this.state.items !== this.getTotal(previousProps.cart)) {
         let total = this.getTotal(previousProps.cart);
         this.setState({ items: total });
@@ -73,19 +75,59 @@ class Cart extends React.Component {
     evt.preventDefault();
     const productId = evt.target.getAttribute('name');
     const userId = this.props.userid;
-    this.props.deleteProduct(userId, productId);
+    confirmAlert({
+      title: 'Are You Sure?',
+      message: 'This item will be removed from your cart',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            this.props.deleteProduct(userId, productId);
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => this.props.history.push('/cart'),
+        },
+      ],
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+    });
   }
 
   //deletes all of the carts in db user on 'checkout'
   checkout(evt) {
-    evt.preventDefault();
     const userId = this.props.userid;
-    this.props.deleteCart(userId);
-    this.props.history.push('/ordered');
+
+    evt.preventDefault();
+    confirmAlert({
+      title: 'Confirm Order',
+      message: `Your Account will be charged ${
+        this.state.cost +
+        shipping(this.state.items) +
+        Math.floor(this.state.cost * tax)
+      } Rupees`,
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            this.props.deleteCart(userId);
+            this.props.history.push('/ordered');
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => this.props.history.push('/cart'),
+        },
+      ],
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+    });
   }
 
   render() {
     const cartList = this.props.cart || [];
+
 
     return (
       <div id="cart-holder">
