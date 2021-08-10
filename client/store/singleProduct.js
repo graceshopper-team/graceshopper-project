@@ -8,7 +8,6 @@ const ClEAR_PRODUCT = 'CLEAR_PRODUCT';
 
 //action creator
 export const setProduct = (product) => {
-  console.log(product);
   return {
     type: SET_PRODUCT,
     product,
@@ -26,7 +25,6 @@ export const fetchSingleProduct = (productId) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`/api/products/${productId}`);
-      console.log('data within thunk creator: ', data);
       dispatch(setProduct(data));
     } catch (err) {
       dispatch(setProduct('invalid'));
@@ -42,7 +40,6 @@ export default function productReducer(state = initialState, action) {
       return {};
     case SET_PRODUCT:
       return action.product;
-
     default:
       return state;
   }

@@ -95,7 +95,7 @@ router.post('/:userId', requireToken, async (req, res, next) => {
     const paramsNum = parseInt(req.params.userId, 10);
     if (req.user.id === paramsNum) {
       const productId = req.body.productId;
-      const quantity = req.body.quantity || 1;
+      const quantity = req.body.quantity;
       const userId = req.params.userId;
 
       let product = await Cart.findOne({
