@@ -4,6 +4,7 @@ import GenerateHearts from '../allFoods/GenerateHearts.js';
 import { PageNotFound } from '../../Routes.js';
 import { fetchSingleProduct, clearProduct } from '../../store/singleProduct.js';
 import { addToCartThunk, fetchCart } from '../../store/cart';
+import { ToastContainer, toast } from 'react-toastify';
 
 class SingleFood extends React.Component {
   constructor(props) {
@@ -99,7 +100,18 @@ class SingleFood extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
 
-    console.log(this.state.count);
+    toast.dark(
+      `Added ${this.state.count} ${this.props.product.name} To Your Cart`,
+      {
+        position: 'bottom-center',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    );
     this.props.addToCartThunk(
       this.props.userId,
       this.props.product.id,
@@ -154,6 +166,7 @@ class SingleFood extends React.Component {
 
                 <h4>
                   <button
+                    className="upDown"
                     id="counter"
                     name="down"
                     onClick={(event) => {
@@ -164,6 +177,7 @@ class SingleFood extends React.Component {
                   </button>{' '}
                   {this.state.count}{' '}
                   <button
+                    className="upDown"
                     id="counter"
                     name="up"
                     onClick={(event) => {
@@ -180,6 +194,7 @@ class SingleFood extends React.Component {
                 <div>
                   {this.state.count === 0 ? (
                     <button
+                      className="addToCart"
                       type="addToCart"
                       disabled
                       onClick={(event) => this.handleSubmit(event)}
@@ -188,6 +203,7 @@ class SingleFood extends React.Component {
                     </button>
                   ) : (
                     <button
+                      className="addToCart"
                       type="addToCart"
                       onClick={(event) => this.handleSubmit(event)}
                     >
@@ -197,6 +213,8 @@ class SingleFood extends React.Component {
                 </div>
               </div>
             </div>
+            {/* Same as */}
+            <ToastContainer />
           </span>
         ) : this.props.product === 'invalid' ? (
           <PageNotFound />

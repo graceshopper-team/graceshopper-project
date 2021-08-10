@@ -32,13 +32,13 @@
   font-weight: 500;
   margin-top: 0px;
   margin-bottom: 5px;
-  color:black;
+  color: black;
 }
-#product-name a{
+#product-name a {
   text-decoration: none;
-  color:black;
+  color: black;
 }
-#product-name a:hover{
+#product-name a:hover {
   text-decoration: underline;
 }
 #product-name button {
@@ -88,7 +88,7 @@
   align-items: center;
   justify-content: space-around;
 }
-#item-list:hover{
+#item-list:hover {
   background-color: #f6f6f7;
 }
 

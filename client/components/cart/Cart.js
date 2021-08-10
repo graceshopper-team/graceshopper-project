@@ -6,6 +6,8 @@ import { fetchCart, deleteThunk, deleteCartThunk } from '../../store/cart';
 import QuantityChanger from './QuantityChanger';
 import ShoppingCart from '../icons/ShoppingCart';
 import AnonCart from './AnonCart';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+//import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const shipping = (items) => {
   return Math.floor(items * 1.5);
@@ -43,7 +45,7 @@ class Cart extends React.Component {
 
   componentDidUpdate(previousProps) {
     //these upodate the total cost for the cart
-    if (previousProps.cart.length > 0) {
+    if (previousProps.cart.length !== this.props.length) {
       if (this.state.items !== this.getTotal(previousProps.cart)) {
         let total = this.getTotal(previousProps.cart);
         this.setState({ items: total });
@@ -70,22 +72,61 @@ class Cart extends React.Component {
     evt.preventDefault();
     const productId = evt.target.getAttribute('name');
     const userId = this.props.userid;
-    this.props.deleteProduct(userId, productId);
+    confirmAlert({
+      title: 'Are You Sure?',
+      message: 'This item will be removed from your cart',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            this.props.deleteProduct(userId, productId);
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => this.props.history.push('/cart'),
+        },
+      ],
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+    });
   }
 
   //deletes all of the carts in db user on 'checkout'
   checkout(evt) {
-    evt.preventDefault();
     const userId = this.props.userid;
-    this.props.deleteCart(userId);
-    this.props.history.push('/ordered');
+
+    evt.preventDefault();
+    confirmAlert({
+      title: 'Confirm Order',
+      message: `Your Account will be charged ${
+        this.state.cost +
+        shipping(this.state.items) +
+        Math.floor(this.state.cost * tax)
+      } Rupees`,
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            this.props.deleteCart(userId);
+            this.props.history.push('/ordered');
+          },
+        },
+        {
+          label: 'No',
+          onClick: () => this.props.history.push('/cart'),
+        },
+      ],
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+    });
   }
 
   render() {
     //where we left off
     const cartList = this.props.cart || [];
     const userid = this.props.userid;
-    
+
     return (
       <div id="cart-holder">
         {this.props.userid ? (
@@ -96,7 +137,7 @@ class Cart extends React.Component {
                   ? 'Shopping Cart Is Empty :('
                   : 'Shopping Cart'}
               </h2>
-  
+
               {cartList.map((element, index) => {
                 return (
                   <div key={element.id} id="item-list">
@@ -136,7 +177,7 @@ class Cart extends React.Component {
                 );
               })}
             </div>
-  
+
             <div id="cart-right">
               {cartList.length === 0 ? (
                 <div id="cart-right-button">
@@ -154,7 +195,7 @@ class Cart extends React.Component {
                   </p>
                 </div>
               )}
-  
+
               <h2>Order Summary</h2>
               <div id="order-sum-holder">
                 <div id="order-sum-holder-left">
@@ -165,12 +206,14 @@ class Cart extends React.Component {
                     <li>Estimated Tax:</li>
                   </ul>
                 </div>
-  
+
                 <div id="order-sum-holder-right">
                   <ul>
                     <li>{this.state.cost} Rupees</li>
                     <li>{shipping(this.state.items)} Rupees</li>
-                    <li>{this.state.cost + shipping(this.state.items)} Rupees</li>
+                    <li>
+                      {this.state.cost + shipping(this.state.items)} Rupees
+                    </li>
                     <li>{Math.floor(this.state.cost * tax)} Rupees</li>
                   </ul>
                 </div>
@@ -184,7 +227,9 @@ class Cart extends React.Component {
               </h2>
             </div>
           </div>
-        ) : (<AnonCart />)}
+        ) : (
+          <AnonCart />
+        )}
       </div>
     );
   }
