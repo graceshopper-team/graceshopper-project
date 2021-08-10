@@ -30,6 +30,8 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "pg": "^8.5.1",
+    "react-confirm-alert": "^2.7.0",
+    "react-toastify": "^7.0.4",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
