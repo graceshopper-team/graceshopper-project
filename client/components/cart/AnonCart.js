@@ -62,9 +62,9 @@ class AnonCart extends React.Component {
   //sets up the total cost for the cart when it loads
   componentDidMount() {
     //trusted product info loaded into state
-    this.props.setFilter("none");
+    this.props.setFilter('none');
     this.props.loadAllProducts();
-    
+
     /*
     if (this.props.cart) {
       let total = this.getTotal(this.props.cart);
@@ -93,133 +93,67 @@ class AnonCart extends React.Component {
 
   render() {
     //where we left off
-    const cartListFromStorage = JSON.parse(window.localStorage.getItem('CART')) || [];
-    
-    //create list of complete product info, 
+    const cartListFromStorage =
+      JSON.parse(window.localStorage.getItem('CART')) || [];
+
+    //create list of complete product info,
     //the products to grab is based on product in local storage
     let createListFromStateList = [];
-    for(let iOuter = 0; iOuter < cartListFromStorage.length; iOuter++){
+    for (let iOuter = 0; iOuter < cartListFromStorage.length; iOuter++) {
       let iInner = 0;
-      while(
-        iInner < this.props.products.length
-        &&
+      while (
+        iInner < this.props.products.length &&
         cartListFromStorage[iOuter].productId != this.props.products[iInner].id
-        ) {
-          iInner++;
+      ) {
+        iInner++;
       }
-      
+
       //if the while loop ended because it found a match
-      if(iInner < this.props.products.length){
+      if (iInner < this.props.products.length) {
         createListFromStateList.push({
           quantity: cartListFromStorage[iOuter].quantity,
-          product: this.props.products[iInner]
+          product: this.props.products[iInner],
         });
       }
     }
-     
+
     const cartList = createListFromStateList;
     console.log('CartList before render():', cartList);
-    
+
     return (
       <div id="anon-cart-holder">
-        <h1>testing</h1>
-        {/*
-          <div id="cart-container">
-            <div id="cart-left">
-              <h2>
-                {cartList.length === 0
-                  ? 'Shopping Cart Is Empty :('
-                  : 'Shopping Cart'}
-              </h2>
-  
-              {cartList.map((element, index) => {
-                return (
-                  <div key={element.id} id="item-list">
-                    <div>
-                      <Link to={`/products/${element.productId}`}>
-                        <img
-                          id="cart-list-image"
-                          src={element.product.imageUrl}
-                        />
-                      </Link>
-                    </div>
-                    <div id="product-name">
-                      <Link to={`/products/${element.productId}`}>
-                        <p>{element.product.name}</p>
-                      </Link>
-                      Price: {element.product.cost + ' Rupees'}
-                      <QuantityChanger
-                        index={index}
-                        cartId={element.id}
-                        productId={element.product.id}
-                        quantity={element.quantity}
-                        inventory={element.product.inventory}
-                      />
-                      <small>available: {element.product.inventory}</small>
-                    </div>
-                    <button
-                      type="button"
-                      className="delete"
-                      name={element.product.id}
-                      onClick={(event) => {
-                        this.delete(event);
-                      }}
-                    >
-                      X
-                    </button>
+        <div id="cart-container">
+          <div id="cart-left">
+            <h2>
+              {cartList.length === 0
+                ? 'Shopping Cart Is Empty :('
+                : 'Shopping Cart'}
+            </h2>
+
+            {cartList.map((element, index) => {
+              return (
+                <div key={index} id="item-list">
+                  <div>
+                    <img id="cart-list-image" src={element.product.imageUrl} />
                   </div>
-                );
-              })}
-            </div>
-  
-            <div id="cart-right">
-              {cartList.length === 0 ? (
-                <div id="cart-right-button">
-                  <p>Cart is empty</p>
+                  <div id="product-name">
+                    <p>{element.product.name}</p>
+                    Price: {element.product.cost + ' Rupees'} in cart:{' '}
+                    {element.quantity}
+                  </div>
                 </div>
-              ) : (
-                <div
-                  id="cart-right-button"
-                  onClick={(evt) => {
-                    this.checkout(evt);
-                  }}
-                >
-                  <p>
-                    <ShoppingCart /> Place Order
-                  </p>
-                </div>
-              )}
-  
-              <h2>Order Summary</h2>
-              <div id="order-sum-holder">
-                <div id="order-sum-holder-left">
-                  <ul>
-                    <li>Items: ({this.state.items})</li>
-                    <li>Shipping:</li>
-                    <li>Before Tax:</li>
-                    <li>Estimated Tax:</li>
-                  </ul>
-                </div>
-  
-                <div id="order-sum-holder-right">
-                  <ul>
-                    <li>{this.state.cost} Rupees</li>
-                    <li>{shipping(this.state.items)} Rupees</li>
-                    <li>{this.state.cost + shipping(this.state.items)} Rupees</li>
-                    <li>{Math.floor(this.state.cost * tax)} Rupees</li>
-                  </ul>
-                </div>
-              </div>
-              <h2>
-                Order-Total:{' '}
-                {this.state.cost +
-                  shipping(this.state.items) +
-                  Math.floor(this.state.cost * tax)}{' '}
-                <small>Rupees</small>
-              </h2>
-            </div>
+              );
+            })}
           </div>
-        */}
+
+          <div id="cart-right">
+            <Link to="/login">
+              <div id="cart-right-button">
+                <p>Log In To Checkout</p>
+              </div>
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
