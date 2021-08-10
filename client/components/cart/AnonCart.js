@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { fetchProducts, setFilter } from '../../store/allProducts';
 import ShoppingCart from '../icons/ShoppingCart';
+import { confirmAlert } from 'react-confirm-alert'; // Import
 
 const shipping = (items) => {
   return Math.floor(items * 1.5);
@@ -85,10 +86,16 @@ class AnonCart extends React.Component {
 
   //deletes all of the carts in db user on 'checkout'
   checkout(evt) {
+    const userId = this.props.userid;
+
     evt.preventDefault();
-    // const userId = this.props.userid;
-    // this.props.deleteCart(userId);
-    // this.props.history.push('/ordered');
+    confirmAlert({
+      title: 'Login Required',
+      message: `Login/Signup To checkout`,
+      buttons: [{ label: 'OK' }],
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+    });
   }
 
   render() {
@@ -148,8 +155,13 @@ class AnonCart extends React.Component {
 
           <div id="cart-right">
             <Link to="/login">
-              <div id="cart-right-button">
-                <p>Log In To Checkout</p>
+              <div
+                id="cart-right-button"
+                onClick={(evt) => {
+                  this.checkout(evt);
+                }}
+              >
+                <p>Checkout</p>
               </div>
             </Link>
           </div>
