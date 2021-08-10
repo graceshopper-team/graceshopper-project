@@ -9,23 +9,14 @@ class HandleAnonCart extends Component {
 
   componentDidMount() {
     const { history, newUserCart, userId } = this.props;
-    console.log('what is this.props? ', this.props);
-    // this.props.newUserCart(this.props.userId);
+    
     newUserCart(userId);
-
-    // if(history.location.state.from == "login"){
-    //   existingUserCart(userId);
-    // } else if(history.location.state.from == "signup"){
-    //   newUserCart(userId);
-    // }
     history.push('/products');
   }
 
   render() {
     return (
-      <div>
-        <h1>Connecting Local cart with your new Account</h1>
-      </div>
+      <span></span>
     );
   }
 }
@@ -37,7 +28,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     newUserCart: (userId) => dispatch(addNewUserCartThunk(userId)),
-    // existingUserCart: (userId) => dispatch(updateUserCartThunk(userId)),
   };
 };
 

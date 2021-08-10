@@ -10,9 +10,7 @@ import { addNewUserCartThunk } from '../store/cart';
  */
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
-  // const history = useHistory();
-
-  console.log(props.name);
+  
   return (
     <div id="auth-form-holder">
       <div id="auth-form">
@@ -98,19 +96,6 @@ const mapDispatch = (dispatch, { history }) => {
       const password = evt.target.password.value;
 
       dispatch(authenticate(username, password, formName));
-
-      // history.push('/handleAnonCart');
-
-      //alt potential solution:
-      //get local cart
-      // const localCart = JSON.parse(window.localStorage.getItem('CART'));
-      // console.log('localCart in authform: ', localCart);
-
-      // if (localCart) {
-      //   history.push('/handleAnonCart');
-      // } else {
-      //   history.push('/products');
-      // }
     },
   };
 };
