@@ -48,7 +48,7 @@ class Routes extends Component {
             <Route path="/products/:productId" component={SingleFood} />
             <Route path="/search/:query" component={ProductSearch} />
             <Route exact path="/ordered" component={OrderConfirmation} />
-            <Route component={PageNotFound} />
+            <Route path="*" component={PageNotFound} />
           </Switch>
         )}
       </div>

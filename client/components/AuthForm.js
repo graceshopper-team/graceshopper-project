@@ -99,7 +99,18 @@ const mapDispatch = (dispatch, { history }) => {
 
       dispatch(authenticate(username, password, formName));
 
-      history.push('/handleAnonCart');
+      // history.push('/handleAnonCart');
+
+      //alt potential solution:
+      //get local cart
+      // const localCart = JSON.parse(window.localStorage.getItem('CART'));
+      // console.log('localCart in authform: ', localCart);
+
+      // if (localCart) {
+      //   history.push('/handleAnonCart');
+      // } else {
+      //   history.push('/products');
+      // }
     },
   };
 };
