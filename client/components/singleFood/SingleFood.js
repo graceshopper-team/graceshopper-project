@@ -37,7 +37,7 @@ class SingleFood extends React.Component {
     }
   }
 
-  // TODO: get Product based on ID in the URL
+  // get Product based on ID in the URL
   componentDidMount() {
     const { productId } = this.props.match.params;
     this.props.getSingleProduct(productId);
