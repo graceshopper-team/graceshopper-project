@@ -9,6 +9,7 @@ import SingleFood from './components/singleFood/SingleFood';
 import Cart from './components/cart/Cart';
 import OrderConfirmation from './components/OrderConfirmation';
 import ProductSearch from './components/productSearch/ProductSearch';
+import HandleAnonCart from './components/cart/HandleAnonCart';
 
 /**
  * COMPONENT
@@ -29,6 +30,7 @@ class Routes extends Component {
             <Route exact path="/products" component={AllFood} />
             <Route path="/products/:productId" component={SingleFood} />
             <Route path="/cart" component={Cart} />
+            <Route path="/handleAnonCart" component={HandleAnonCart} />
             <Route exact path="/ordered" component={OrderConfirmation} />
             <Route path="/search/:query" component={ProductSearch} />
             <Route exact path="/" component={AllFood} />
@@ -41,11 +43,12 @@ class Routes extends Component {
             <Route exact path="/products" component={AllFood} />
             <Route path="/login" component={Login} />
             <Route path="/cart" component={Cart} />
+            {/* <Route path="/handleAnonCart" component={HandleAnonCart} /> */}
             <Route path="/signup" component={Signup} />
             <Route path="/products/:productId" component={SingleFood} />
             <Route path="/search/:query" component={ProductSearch} />
             <Route exact path="/ordered" component={OrderConfirmation} />
-            <Route component={PageNotFound} />
+            <Route path="*" component={PageNotFound} />
           </Switch>
         )}
       </div>

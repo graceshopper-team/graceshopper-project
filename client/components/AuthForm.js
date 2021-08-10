@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { authenticate } from '../store';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { addNewUserCartThunk } from '../store/cart';
 
 /**
  * COMPONENT
@@ -95,8 +96,21 @@ const mapDispatch = (dispatch, { history }) => {
       const formName = evt.target.name;
       const username = evt.target.username.value;
       const password = evt.target.password.value;
+
       dispatch(authenticate(username, password, formName));
-      history.push('/products');
+
+      // history.push('/handleAnonCart');
+
+      //alt potential solution:
+      //get local cart
+      // const localCart = JSON.parse(window.localStorage.getItem('CART'));
+      // console.log('localCart in authform: ', localCart);
+
+      // if (localCart) {
+      //   history.push('/handleAnonCart');
+      // } else {
+      //   history.push('/products');
+      // }
     },
   };
 };

@@ -20,6 +20,7 @@ class Cart extends React.Component {
     this.state = {
       items: 0,
       cost: 0,
+      pleaseWork: false,
     };
     this.delete = this.delete.bind(this);
     this.checkout = this.checkout.bind(this);
@@ -59,6 +60,8 @@ class Cart extends React.Component {
 
   //sets up the total cost for the cart when it loads
   componentDidMount() {
+    this.props.loadCart(this.props.userid);
+
     if (this.props.cart) {
       let total = this.getTotal(this.props.cart);
       this.setState({ items: total });
@@ -123,9 +126,8 @@ class Cart extends React.Component {
   }
 
   render() {
-    //where we left off
     const cartList = this.props.cart || [];
-    const userid = this.props.userid;
+
 
     return (
       <div id="cart-holder">
