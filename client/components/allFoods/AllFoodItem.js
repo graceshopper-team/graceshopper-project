@@ -11,8 +11,52 @@ const AllFoodItem = (props) => {
   const history = useHistory();
   function click(evt) {
     evt.preventDefault();
-    props.addToCartThunk(props.userid, props.id, 1);
-    history.push('/cart');
+    
+    //if this is a logged in user use redux store
+    if(props.userid) {
+      props.addToCartThunk(props.userid, props.id, 1);
+      history.push('/cart');
+    } else {
+      //create a object containing the product info for local storage use
+      //TODO: add check to limit adding products to local-cart beyond inventory limits
+      const newCartItem = {
+        quantity: 1,
+        productId: props.id,
+      };
+      
+      //if cart exists in local storage, add to it
+      if(window.localStorage.getItem('CART')){
+        console.log('local cart exists, adding to it (in AllFoodItem)');
+        let existingLocalCart = JSON.parse(window.localStorage.getItem('CART'));
+        console.log('parsed existing cart:', existingLocalCart);
+        
+        //loop through existing cart to see if item being added exists in cart already
+        let itemExists = false;
+        existingLocalCart.forEach((product, index) => {
+          
+          //if it does, then increment the quantity of it appropriately 
+          if(product.productId == newCartItem.productId){
+            existingLocalCart[index].quantity += newCartItem.quantity; 
+            itemExists = true;
+          }
+        });
+        
+        //if it doesnt exist already, then push the new item object to existing local cart
+        if(!itemExists) existingLocalCart.push(newCartItem);
+        
+        //2 back 2 string
+        let stringCart = JSON.stringify(existingLocalCart);
+        window.localStorage.setItem('CART', stringCart);
+        
+      } else {
+        console.log("no local cart, creating one (in AllFoodItem)");
+        
+        let stringCart = JSON.stringify([newCartItem]);
+        window.localStorage.setItem('CART', stringCart);
+      }
+      
+      history.push('/cart');
+    }
   }
   return (
     <div className="all-food-item">

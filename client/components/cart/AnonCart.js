@@ -2,17 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { fetchCart, deleteThunk, deleteCartThunk } from '../../store/cart';
-import QuantityChanger from './QuantityChanger';
+import { fetchProducts, setFilter } from '../../store/allProducts';
 import ShoppingCart from '../icons/ShoppingCart';
-import AnonCart from './AnonCart';
 
 const shipping = (items) => {
   return Math.floor(items * 1.5);
 };
 const tax = 0.07;
 
-class Cart extends React.Component {
+class AnonCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,24 +23,29 @@ class Cart extends React.Component {
 
   //calculate total amount of items
   getTotal(arry) {
+    /*
     let total = 0;
     arry.map((element) => {
       total += element.quantity;
     });
     return total;
+    */
   }
 
   //calculates the cost of all the items
   getCost(arry) {
+    /*
     let cost = 0;
     arry.map((element) => {
       cost += element.quantity * element.product.cost;
     });
     return cost;
+    */
   }
 
   componentDidUpdate(previousProps) {
     //these upodate the total cost for the cart
+    /*
     if (previousProps.cart.length > 0) {
       if (this.state.items !== this.getTotal(previousProps.cart)) {
         let total = this.getTotal(previousProps.cart);
@@ -53,42 +56,74 @@ class Cart extends React.Component {
         this.setState({ cost: cost });
       }
     }
+    */
   }
 
   //sets up the total cost for the cart when it loads
   componentDidMount() {
+    //trusted product info loaded into state
+    this.props.setFilter("none");
+    this.props.loadAllProducts();
+    
+    /*
     if (this.props.cart) {
       let total = this.getTotal(this.props.cart);
       this.setState({ items: total });
       let cost = this.getCost(this.props.cart);
       this.setState({ cost: cost });
     }
+    */
   }
 
   //deletes single product from cart db of user
   delete(evt) {
     evt.preventDefault();
-    const productId = evt.target.getAttribute('name');
-    const userId = this.props.userid;
-    this.props.deleteProduct(userId, productId);
+    // const productId = evt.target.getAttribute('name');
+    // const userId = this.props.userid;
+    // this.props.deleteProduct(userId, productId);
   }
 
   //deletes all of the carts in db user on 'checkout'
   checkout(evt) {
     evt.preventDefault();
-    const userId = this.props.userid;
-    this.props.deleteCart(userId);
-    this.props.history.push('/ordered');
+    // const userId = this.props.userid;
+    // this.props.deleteCart(userId);
+    // this.props.history.push('/ordered');
   }
 
   render() {
     //where we left off
-    const cartList = this.props.cart || [];
-    const userid = this.props.userid;
+    const cartListFromStorage = JSON.parse(window.localStorage.getItem('CART')) || [];
+    
+    //create list of complete product info, 
+    //the products to grab is based on product in local storage
+    let createListFromStateList = [];
+    for(let iOuter = 0; iOuter < cartListFromStorage.length; iOuter++){
+      let iInner = 0;
+      while(
+        iInner < this.props.products.length
+        &&
+        cartListFromStorage[iOuter].productId != this.props.products[iInner].id
+        ) {
+          iInner++;
+      }
+      
+      //if the while loop ended because it found a match
+      if(iInner < this.props.products.length){
+        createListFromStateList.push({
+          quantity: cartListFromStorage[iOuter].quantity,
+          product: this.props.products[iInner]
+        });
+      }
+    }
+     
+    const cartList = createListFromStateList;
+    console.log('CartList before render():', cartList);
     
     return (
-      <div id="cart-holder">
-        {this.props.userid ? (
+      <div id="anon-cart-holder">
+        <h1>testing</h1>
+        {/*
           <div id="cart-container">
             <div id="cart-left">
               <h2>
@@ -184,25 +219,18 @@ class Cart extends React.Component {
               </h2>
             </div>
           </div>
-        ) : (<AnonCart />)}
+        */}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    cart: state.cartReducer,
-    userid: state.auth.id,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadCart: (userId) => dispatch(fetchCart(userId)),
-    deleteProduct: (userId, productId) =>
-      dispatch(deleteThunk(userId, productId)),
-    deleteCart: (userId) => dispatch(deleteCartThunk(userId)),
-  };
-};
+const mapStateToProps = (state) => ({
+  products: state.allProducts.list,
+});
+const mapDispatchToProps = (dispatch) => ({
+  loadAllProducts: () => dispatch(fetchProducts()),
+  setFilter: (filter) => dispatch(setFilter(filter)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(AnonCart);
