@@ -18,6 +18,7 @@ class Cart extends React.Component {
     this.state = {
       items: 0,
       cost: 0,
+      pleaseWork: false,
     };
     this.delete = this.delete.bind(this);
     this.checkout = this.checkout.bind(this);
@@ -57,6 +58,8 @@ class Cart extends React.Component {
 
   //sets up the total cost for the cart when it loads
   componentDidMount() {
+    this.props.loadCart(this.props.userid);
+
     if (this.props.cart) {
       let total = this.getTotal(this.props.cart);
       this.setState({ items: total });
@@ -82,10 +85,8 @@ class Cart extends React.Component {
   }
 
   render() {
-    //where we left off
     const cartList = this.props.cart || [];
-    const userid = this.props.userid;
-    
+
     return (
       <div id="cart-holder">
         {this.props.userid ? (
@@ -96,7 +97,7 @@ class Cart extends React.Component {
                   ? 'Shopping Cart Is Empty :('
                   : 'Shopping Cart'}
               </h2>
-  
+
               {cartList.map((element, index) => {
                 return (
                   <div key={element.id} id="item-list">
@@ -136,7 +137,7 @@ class Cart extends React.Component {
                 );
               })}
             </div>
-  
+
             <div id="cart-right">
               {cartList.length === 0 ? (
                 <div id="cart-right-button">
@@ -154,7 +155,7 @@ class Cart extends React.Component {
                   </p>
                 </div>
               )}
-  
+
               <h2>Order Summary</h2>
               <div id="order-sum-holder">
                 <div id="order-sum-holder-left">
@@ -165,12 +166,14 @@ class Cart extends React.Component {
                     <li>Estimated Tax:</li>
                   </ul>
                 </div>
-  
+
                 <div id="order-sum-holder-right">
                   <ul>
                     <li>{this.state.cost} Rupees</li>
                     <li>{shipping(this.state.items)} Rupees</li>
-                    <li>{this.state.cost + shipping(this.state.items)} Rupees</li>
+                    <li>
+                      {this.state.cost + shipping(this.state.items)} Rupees
+                    </li>
                     <li>{Math.floor(this.state.cost * tax)} Rupees</li>
                   </ul>
                 </div>
@@ -184,7 +187,9 @@ class Cart extends React.Component {
               </h2>
             </div>
           </div>
-        ) : (<AnonCart />)}
+        ) : (
+          <AnonCart />
+        )}
       </div>
     );
   }
